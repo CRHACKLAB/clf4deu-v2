@@ -1,0 +1,46 @@
+extends main.pug 
+
+block hero 
+  section.hero#cardhero
+    img(src=yamlProjectLogo alt=yamlProjectLogoAlt)
+    header
+      h1
+        q!= yamlProjectTitle
+      cite
+        | — #{yamlFundings + ` (` + yamlStartYear + `/` + yamlEndYear + `)`}, 
+        a(href=`https://` + yamlWebsite) #{`https://` + yamlWebsite}
+      p!= yamlProjectValue
+
+block content
+
+
+  section#projectdescription
+    aside
+      nav
+        ul
+          li
+            a(href=`#partenariato`) Partenariato
+          li
+            a(href=`#sezione02`) Obiettivi
+          li
+            a(href=`#sezione03`) Attività principali
+          li
+            a(href=`#sezione03`) Prodotti rimarchevoli
+          li
+            a(href=`#sezione03`) Dati del progetto
+    article
+      h2 Partenariato 
+      section#partnership
+        p Descrizione
+        p Stato 
+        p Sito web 
+        //
+        p CLF4D (C)
+        p Italia 
+        p https://clf4d.eu 
+        //
+        p Partner 2
+        p Stato 2
+        p https://website2.com 
+        
+      != contents

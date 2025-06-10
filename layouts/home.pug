@@ -1,0 +1,159 @@
+extends main.pug
+
+block hero
+  section.hero#hero
+    header
+      h1 
+        q!= labels.home.hero.title
+      cite
+        | — #{labels.home.hero.citation.title}, 
+        a(href=labels.home.hero.citation.source) #{labels.home.hero.citation.author}
+    p!= labels.home.hero.subtitle
+
+block content 
+  section.container
+    header
+      h2!=labels.home.main.focusSectionTitle
+      p 
+    section.manytopics
+      article
+        img(src="/assets/media/images/events/eventi-creacultura-2025.webp" alt="Banner Social Hackathon Umbria 2025")
+        header
+          h3.focus Expand your network with CAE
+            p Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquam iaculis fames condimentum ornare non himenaeos tempor magna. Parturient eu dolor purus sed ornare vulputate. Maecenas felis phasellus ante senectus senectus sodales aenean. Felis nostra nam venenatis nisl est metus, montes maximus. Scelerisque nulla vehicula litora justo vulputate netus eros magnis. Nisi mi praesent finibus libero rutrum condimentum blandit vel sit.
+            p Senectus magna placerat et euismod sem feugiat pharetra curae. Efficitur viverra nam nisl libero risus proin aptent sociosqu facilisi. Mattis erat luctus magna hac natoque ultricies quisque. Sit erat tellus euismod eu accumsan blandit potenti. Ultrices morbi habitant dis etiam vel. Taciti ullamcorper sagittis molestie nostra arcu ultricies litora nullam. Lobortis himenaeos class ex donec suspendisse. Hac elementum nec egestas curae natoque. Mi eget sit nec cubilia libero platea habitant ac consectetur. 
+              a(href="/about/")!=labels.home.main.readMore
+          span.focus.fa-solid.fa-sort-down
+      article
+        img(src="/assets/media/images/events/eventi-gnoli-2024.webp" alt="Evento Gnoli 2024")
+        header
+          h3.focus Culture is Fun at SHU2025!
+            p Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquam iaculis fames condimentum ornare non himenaeos tempor magna. Parturient eu dolor purus sed ornare vulputate. Maecenas felis phasellus ante senectus senectus sodales aenean. Felis nostra nam venenatis nisl est metus, montes maximus. Scelerisque nulla vehicula litora justo vulputate netus eros magnis. Nisi mi praesent finibus libero rutrum condimentum blandit vel sit.
+            p Senectus magna placerat et euismod sem feugiat pharetra curae. Efficitur viverra nam nisl libero risus proin aptent sociosqu facilisi. Mattis erat luctus magna hac natoque ultricies quisque. Sit erat tellus euismod eu accumsan blandit potenti. Ultrices morbi habitant dis etiam vel. Taciti ullamcorper sagittis molestie nostra arcu ultricies litora nullam. Lobortis himenaeos class ex donec suspendisse. Hac elementum nec egestas curae natoque. Mi eget sit nec cubilia libero platea habitant ac consectetur.
+              a(href="/about/")!=labels.home.main.readMore
+          span.focus.fa-solid.fa-sort-down
+      article
+        img(src="/assets/media/images/events/eventi-artemia-ciac-2024.webp" alt="Evento Artemia CIAC 2024")
+        header
+          h3.focus The new Ubuntu 24 gives you an edge
+            p Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquam iaculis fames condimentum ornare non himenaeos tempor magna. Parturient eu dolor purus sed ornare vulputate. Maecenas felis phasellus ante senectus senectus sodales aenean. Felis nostra nam venenatis nisl est metus, montes maximus. Scelerisque nulla vehicula litora justo vulputate netus eros magnis. Nisi mi praesent finibus libero rutrum condimentum blandit vel sit.
+            p Senectus magna placerat et euismod sem feugiat pharetra curae. Efficitur viverra nam nisl libero risus proin aptent sociosqu facilisi. Mattis erat luctus magna hac natoque ultricies quisque. Sit erat tellus euismod eu accumsan blandit potenti. Ultrices morbi habitant dis etiam vel. Taciti ullamcorper sagittis molestie nostra arcu ultricies litora nullam. Lobortis himenaeos class ex donec suspendisse. Hac elementum nec egestas curae natoque. Mi eget sit nec cubilia libero platea habitant ac consectetur.
+              a(href="/about/")!=labels.home.main.readMore
+          span.focus.fa-solid.fa-sort-down
+  section.container
+    header
+      h2!=labels.home.main.changeWorldSectionTitle
+      p 
+    section.manytopics
+      article
+        img(src="/assets/media/images/research/research-crowddreaming.webp" alt="Crowddreaming methodology")
+        header
+          h3.crowddreamingworld The Crowddreaming methodology
+            p Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquam iaculis fames condimentum ornare non himenaeos tempor magna. Parturient eu dolor purus sed ornare vulputate. Maecenas felis phasellus ante senectus senectus sodales aenean. Felis nostra nam venenatis nisl est metus, montes maximus. Scelerisque nulla vehicula litora justo vulputate netus eros magnis. Nisi mi praesent finibus libero rutrum condimentum blandit vel sit.
+            p Senectus magna placerat et euismod sem feugiat pharetra curae. Efficitur viverra nam nisl libero risus proin aptent sociosqu facilisi. Mattis erat luctus magna hac natoque ultricies quisque. Sit erat tellus euismod eu accumsan blandit potenti. Ultrices morbi habitant dis etiam vel. Taciti ullamcorper sagittis molestie nostra arcu ultricies litora nullam. Lobortis himenaeos class ex donec suspendisse. Hac elementum nec egestas curae natoque. Mi eget sit nec cubilia libero platea habitant ac consectetur.
+              a(href="/about/")!=labels.home.main.readMore
+          span.crowddreamingworld.fa-solid.fa-sort-down
+      article
+        img(src="/assets/media/images/research/research-dream.webp" alt="D.R.E.A.M. methodology")
+        header
+          h3.crowddreamingworld The D.R.E.A.M. methodology
+            p Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquam iaculis fames condimentum ornare non himenaeos tempor magna. Parturient eu dolor purus sed ornare vulputate. Maecenas felis phasellus ante senectus senectus sodales aenean. Felis nostra nam venenatis nisl est metus, montes maximus. Scelerisque nulla vehicula litora justo vulputate netus eros magnis. Nisi mi praesent finibus libero rutrum condimentum blandit vel sit.
+            p Senectus magna placerat et euismod sem feugiat pharetra curae. Efficitur viverra nam nisl libero risus proin aptent sociosqu facilisi. Mattis erat luctus magna hac natoque ultricies quisque. Sit erat tellus euismod eu accumsan blandit potenti. Ultrices morbi habitant dis etiam vel. Taciti ullamcorper sagittis molestie nostra arcu ultricies litora nullam. Lobortis himenaeos class ex donec suspendisse. Hac elementum nec egestas curae natoque. Mi eget sit nec cubilia libero platea habitant ac consectetur.
+              a(href="/about/")!=labels.home.main.readMore
+          span.crowddreamingworld.fa-solid.fa-sort-down
+      article
+        img(src="/assets/media/images/research/research-artemia-ciac.webp" alt="Artemìa methodology")
+        header
+          h3.crowddreamingworld The Artemìa methodology
+            p Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquam iaculis fames condimentum ornare non himenaeos tempor magna. Parturient eu dolor purus sed ornare vulputate. Maecenas felis phasellus ante senectus senectus sodales aenean. Felis nostra nam venenatis nisl est metus, montes maximus. Scelerisque nulla vehicula litora justo vulputate netus eros magnis. Nisi mi praesent finibus libero rutrum condimentum blandit vel sit.
+            p Senectus magna placerat et euismod sem feugiat pharetra curae. Efficitur viverra nam nisl libero risus proin aptent sociosqu facilisi. Mattis erat luctus magna hac natoque ultricies quisque. Sit erat tellus euismod eu accumsan blandit potenti. Ultrices morbi habitant dis etiam vel. Taciti ullamcorper sagittis molestie nostra arcu ultricies litora nullam. Lobortis himenaeos class ex donec suspendisse. Hac elementum nec egestas curae natoque. Mi eget sit nec cubilia libero platea habitant ac consectetur.
+              a(href="/about/")!=labels.home.main.readMore  
+          span.crowddreamingworld.fa-solid.fa-sort-down
+  section.container
+    header
+      h2!=labels.home.main.changeCommunitySectionTitle
+      p 
+    section.manytopics
+      article
+        img(src="/assets/media/images/innovation/innov-melody.webp" alt="Melody: new tools for cultural inclusion")
+        header
+          h3.crowddreamingcommunity Melody: new tools for cultural inclusion
+            p Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquam iaculis fames condimentum ornare non himenaeos tempor magna. Parturient eu dolor purus sed ornare vulputate. Maecenas felis phasellus ante senectus senectus sodales aenean. Felis nostra nam venenatis nisl est metus, montes maximus. Scelerisque nulla vehicula litora justo vulputate netus eros magnis. Nisi mi praesent finibus libero rutrum condimentum blandit vel sit.
+            p Senectus magna placerat et euismod sem feugiat pharetra curae. Efficitur viverra nam nisl libero risus proin aptent sociosqu facilisi. Mattis erat luctus magna hac natoque ultricies quisque. Sit erat tellus euismod eu accumsan blandit potenti. Ultrices morbi habitant dis etiam vel. Taciti ullamcorper sagittis molestie nostra arcu ultricies litora nullam. Lobortis himenaeos class ex donec suspendisse. Hac elementum nec egestas curae natoque. Mi eget sit nec cubilia libero platea habitant ac consectetur.
+              a(href="/about/")!=labels.home.main.readMore  
+          span.crowddreamingcommunity.fa-solid.fa-sort-down
+      article
+        img(src="/assets/media/images/innovation/innov-toccgai.webp" alt="TOCCGAI: new tools for tourism")
+        header
+          h3.crowddreamingcommunity Discovering Bevagna's'Gaite with AR
+            p Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquam iaculis fames condimentum ornare non himenaeos tempor magna. Parturient eu dolor purus sed ornare vulputate. Maecenas felis phasellus ante senectus senectus sodales aenean. Felis nostra nam venenatis nisl est metus, montes maximus. Scelerisque nulla vehicula litora justo vulputate netus eros magnis. Nisi mi praesent finibus libero rutrum condimentum blandit vel sit.
+            p Senectus magna placerat et euismod sem feugiat pharetra curae. Efficitur viverra nam nisl libero risus proin aptent sociosqu facilisi. Mattis erat luctus magna hac natoque ultricies quisque. Sit erat tellus euismod eu accumsan blandit potenti. Ultrices morbi habitant dis etiam vel. Taciti ullamcorper sagittis molestie nostra arcu ultricies litora nullam. Lobortis himenaeos class ex donec suspendisse. Hac elementum nec egestas curae natoque. Mi eget sit nec cubilia libero platea habitant ac consectetur.
+              a(href="/about/")!=labels.home.main.readMore    
+          span.crowddreamingcommunity.fa-solid.fa-sort-down
+      article
+        img(src="/assets/media/images/innovation/innov-of-in-concert.webp" alt="Oskuri Figuri in Concert")
+        header
+          h3.crowddreamingcommunity Can you write a Constitution?
+            p Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquam iaculis fames condimentum ornare non himenaeos tempor magna. Parturient eu dolor purus sed ornare vulputate. Maecenas felis phasellus ante senectus senectus sodales aenean. Felis nostra nam venenatis nisl est metus, montes maximus. Scelerisque nulla vehicula litora justo vulputate netus eros magnis. Nisi mi praesent finibus libero rutrum condimentum blandit vel sit.
+            p Senectus magna placerat et euismod sem feugiat pharetra curae. Efficitur viverra nam nisl libero risus proin aptent sociosqu facilisi. Mattis erat luctus magna hac natoque ultricies quisque. Sit erat tellus euismod eu accumsan blandit potenti. Ultrices morbi habitant dis etiam vel. Taciti ullamcorper sagittis molestie nostra arcu ultricies litora nullam. Lobortis himenaeos class ex donec suspendisse. Hac elementum nec egestas curae natoque. Mi eget sit nec cubilia libero platea habitant ac consectetur.
+              a(href="/about/")!=labels.home.main.readMore  
+          span.crowddreamingcommunity.fa-solid.fa-sort-down
+  section.container
+    header
+      h2!=labels.home.main.changeMeSectionTitle
+      p 
+    section.manytopics
+      article
+        img(src="/assets/media/images/events/eventi-creacultura-2025.webp" alt="Banner crea cultura 2025")
+        header
+          h3.crowddreamingme How to make pasta the ancient way
+            p Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquam iaculis fames condimentum ornare non himenaeos tempor magna. Parturient eu dolor purus sed ornare vulputate. Maecenas felis phasellus ante senectus senectus sodales aenean. Felis nostra nam venenatis nisl est metus, montes maximus. Scelerisque nulla vehicula litora justo vulputate netus eros magnis. Nisi mi praesent finibus libero rutrum condimentum blandit vel sit.
+            p Senectus magna placerat et euismod sem feugiat pharetra curae. Efficitur viverra nam nisl libero risus proin aptent sociosqu facilisi. Mattis erat luctus magna hac natoque ultricies quisque. Sit erat tellus euismod eu accumsan blandit potenti. Ultrices morbi habitant dis etiam vel. Taciti ullamcorper sagittis molestie nostra arcu ultricies litora nullam. Lobortis himenaeos class ex donec suspendisse. Hac elementum nec egestas curae natoque. Mi eget sit nec cubilia libero platea habitant ac consectetur.
+              a(href="/about/")!=labels.home.main.readMore
+          span.crowddreamingme.fa-solid.fa-sort-down
+      article
+        img(src="/assets/media/images/education/education-arvr-2025.webp" alt="ARVR 2025")
+        header
+          h3.crowddreamingme Basic AR experiences with Pictarize
+            p Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquam iaculis fames condimentum ornare non himenaeos tempor magna. Parturient eu dolor purus sed ornare vulputate. Maecenas felis phasellus ante senectus senectus sodales aenean. Felis nostra nam venenatis nisl est metus, montes maximus. Scelerisque nulla vehicula litora justo vulputate netus eros magnis. Nisi mi praesent finibus libero rutrum condimentum blandit vel sit.
+            p Senectus magna placerat et euismod sem feugiat pharetra curae. Efficitur viverra nam nisl libero risus proin aptent sociosqu facilisi. Mattis erat luctus magna hac natoque ultricies quisque. Sit erat tellus euismod eu accumsan blandit potenti. Ultrices morbi habitant dis etiam vel. Taciti ullamcorper sagittis molestie nostra arcu ultricies litora nullam. Lobortis himenaeos class ex donec suspendisse. Hac elementum nec egestas curae natoque. Mi eget sit nec cubilia libero platea habitant ac consectetur.
+              a(href="/about/")!=labels.home.main.readMore
+          span.crowddreamingme.fa-solid.fa-sort-down
+      article
+        img(src="/assets/media/images/education/education-museater-101.webp" alt="Museater 101")
+        header
+          h3.crowddreamingme How to read paintings
+            p Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquam iaculis fames condimentum ornare non himenaeos tempor magna. Parturient eu dolor purus sed ornare vulputate. Maecenas felis phasellus ante senectus senectus sodales aenean. Felis nostra nam venenatis nisl est metus, montes maximus. Scelerisque nulla vehicula litora justo vulputate netus eros magnis. Nisi mi praesent finibus libero rutrum condimentum blandit vel sit.
+            p Senectus magna placerat et euismod sem feugiat pharetra curae. Efficitur viverra nam nisl libero risus proin aptent sociosqu facilisi. Mattis erat luctus magna hac natoque ultricies quisque. Sit erat tellus euismod eu accumsan blandit potenti. Ultrices morbi habitant dis etiam vel. Taciti ullamcorper sagittis molestie nostra arcu ultricies litora nullam. Lobortis himenaeos class ex donec suspendisse. Hac elementum nec egestas curae natoque. Mi eget sit nec cubilia libero platea habitant ac consectetur. 
+              a(href="/about/")!=labels.home.main.readMore
+          span.crowddreamingme.fa-solid.fa-sort-down
+  section.container
+    header
+      h2!=labels.home.main.jumpInSectionTitle
+      p 
+    section.manytopics
+      article
+        img(src="/assets/media/images/education/education-summer-school-2025.webp" alt="Summer School 2025")
+        header
+          h3.jumpin Summer School - July 2025 - Enroll!
+            p Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquam iaculis fames condimentum ornare non himenaeos tempor magna. Parturient eu dolor purus sed ornare vulputate. Maecenas felis phasellus ante senectus senectus sodales aenean. Felis nostra nam venenatis nisl est metus, montes maximus. Scelerisque nulla vehicula litora justo vulputate netus eros magnis. Nisi mi praesent finibus libero rutrum condimentum blandit vel sit.
+            p Senectus magna placerat et euismod sem feugiat pharetra curae. Efficitur viverra nam nisl libero risus proin aptent sociosqu facilisi. Mattis erat luctus magna hac natoque ultricies quisque. Sit erat tellus euismod eu accumsan blandit potenti. Ultrices morbi habitant dis etiam vel. Taciti ullamcorper sagittis molestie nostra arcu ultricies litora nullam. Lobortis himenaeos class ex donec suspendisse. Hac elementum nec egestas curae natoque. Mi eget sit nec cubilia libero platea habitant ac consectetur.
+              a(href="/about/")!=labels.home.main.readMore
+          span.jumpin.fa-solid.fa-sort-down
+      article
+        img(src="/assets/media/images/events/eventi-gnoli-2024.webp" alt="Evento Gnoli 2024")
+        header
+          h3.jumpin We need Street Artists!
+            p Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquam iaculis fames condimentum ornare non himenaeos tempor magna. Parturient eu dolor purus sed ornare vulputate. Maecenas felis phasellus ante senectus senectus sodales aenean. Felis nostra nam venenatis nisl est metus, montes maximus. Scelerisque nulla vehicula litora justo vulputate netus eros magnis. Nisi mi praesent finibus libero rutrum condimentum blandit vel sit.
+            p Senectus magna placerat et euismod sem feugiat pharetra curae. Efficitur viverra nam nisl libero risus proin aptent sociosqu facilisi. Mattis erat luctus magna hac natoque ultricies quisque. Sit erat tellus euismod eu accumsan blandit potenti. Ultrices morbi habitant dis etiam vel. Taciti ullamcorper sagittis molestie nostra arcu ultricies litora nullam. Lobortis himenaeos class ex donec suspendisse. Hac elementum nec egestas curae natoque. Mi eget sit nec cubilia libero platea habitant ac consectetur.
+              a(href="/about/")!=labels.home.main.readMore
+          span.jumpin.fa-solid.fa-sort-down
+      article
+        img(src="/assets/media/images/events/eventi-artemia-ciac-2024.webp" alt="Evento Artemia CIAC 2024")
+        header
+          h3.jumpin Artemìa Trinci kick-off event: you're invited!
+            p Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquam iaculis fames condimentum ornare non himenaeos tempor magna. Parturient eu dolor purus sed ornare vulputate. Maecenas felis phasellus ante senectus senectus sodales aenean. Felis nostra nam venenatis nisl est metus, montes maximus. Scelerisque nulla vehicula litora justo vulputate netus eros magnis. Nisi mi praesent finibus libero rutrum condimentum blandit vel sit.
+            p Senectus magna placerat et euismod sem feugiat pharetra curae. Efficitur viverra nam nisl libero risus proin aptent sociosqu facilisi. Mattis erat luctus magna hac natoque ultricies quisque. Sit erat tellus euismod eu accumsan blandit potenti. Ultrices morbi habitant dis etiam vel. Taciti ullamcorper sagittis molestie nostra arcu ultricies litora nullam. Lobortis himenaeos class ex donec suspendisse. Hac elementum nec egestas curae natoque. Mi eget sit nec cubilia libero platea habitant ac consectetur.
+              a(href="/about/")!=labels.home.main.readMore
+          span.jumpin.fa-solid.fa-sort-down
+

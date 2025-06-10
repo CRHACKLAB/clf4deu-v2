@@ -1,0 +1,10 @@
+extends main
+
+block content
+  article.blog-post
+    header.post-header
+      h1= title
+      if date
+        time(datetime=date)= new Date(date).toLocaleDateString()
+    .post-content
+      != contents 

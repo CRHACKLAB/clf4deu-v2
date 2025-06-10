@@ -1,0 +1,64 @@
+extends main.pug
+
+block hero
+  section.hero#hero
+    // img(src="/assets/media/images/banners/if_enough_of_us_dream.png" alt="Crowddreaming a New World!")
+    header
+      h1 
+        q!= labels.about.hero.title
+      cite
+        | — #{labels.about.hero.citation.title}, 
+        a(href=labels.about.hero.citation.source) #{labels.about.hero.citation.author}
+    p!= labels.about.hero.subtitle
+
+block content 
+  section.container
+    header
+      h2!=labels.about.main.labsSectionTitle
+      article.justthedescription
+        p!=labels.about.main.labsSectionDescription
+        p!=labels.about.main.labsSectionDescriptionCall2Action
+          a(href="/" + lang + "/error404")!=labels.about.main.readMore
+  section.container
+    header
+      h2!=labels.about.main.projectsSectionTitle
+      article.justthedescription
+        p!=labels.about.main.projectsSectionDescription
+        p!=labels.about.main.projectsSectionDescriptionCall2Action
+          a(href="/" + lang + "/projects")!=labels.about.main.readMore
+  section.container
+    header
+      h2!=labels.about.main.networkingSectionTitle
+      article.justthedescription
+        p!=labels.about.main.networkingSectionDescription 
+        p!=labels.about.main.networkingSectionDescriptionCall2Action
+          a(href="/error404/")!=labels.about.main.readMore
+  section.container
+    header
+      h2!=labels.about.main.coursesSectionTitle
+      article.justthedescription
+        p!=labels.about.main.coursesSectionDescription
+        p!=labels.about.main.coursesSectionCall2Action
+          a(href="/error404/")!=labels.about.main.readMore
+  section.container
+    header
+      h2!=labels.about.main.internshipOpportunitiesSectionTitle
+      article.justthedescription
+        p!=labels.about.main.internshipOpportunitiesSectionDescription
+        p!=labels.about.main.internshipOpportunitiesSectionCall2Action
+          a(href="/error404/")!=labels.about.main.readMore
+  section.container
+    header
+      h2!=labels.about.main.volunteersSectionTitle
+      article.justthedescription
+        p!=labels.about.main.volunteersSectionDescription
+        p!=labels.about.main.volunteersSectionCall2Action
+          a(href="/error404/")!=labels.about.main.readMore
+  section.container
+    header
+      h2!=labels.about.main.contactsSectionTitle
+      article.justthedescription
+        p!=labels.about.main.contactsSectionDescription
+        p!=labels.about.main.contactsSectionCall2Action
+          // a(href="/error404/")!=labels.about.main.readMore
+

@@ -1,0 +1,17 @@
+header.main-header
+  nav.top-nav
+    a(href="/" + lang + "/")
+      img(id="nav-logo" src="/assets/media/images/logos/clf4d_logo_2020_lungo_exp.png" alt=labels.layout.header.logoAlt)
+    .nav-links
+      a(href="/" + lang + "/about").aquaunderline!= labels.layout.menu.about
+      a( href="/" + lang + "/team").greenunderline!= labels.layout.menu.team
+      a(href="/" + lang + "/blog").orangeunderline!= labels.layout.menu.blog
+      a(href="/" + lang + "/labs").fuchsiaunderline!= labels.layout.menu.labs
+      button(id="cta-button")!= labels.layout.menu.calltoaction
+      a(href="/" + (lang=="en" ? "it" : "en") + "/" role="button")
+        img(id="nav-lang" role="button" src="/assets/media/images/icons/lang-" + (lang=="en" ? "it" : "en")  + ".png" alt=labels.layout.menu.langIconAlt lang= (lang=="en" ? "it-IT" : "en-GB"))
+      .search-container
+        input(type="search" id="search-input" placeholder=lang=="en" ? "Search..." : "Cerca..." aria-label="Search")
+        button.search-button(aria-label="Toggle search")
+          span.fa-solid.fa-magnifying-glass
+      ul#searchResults

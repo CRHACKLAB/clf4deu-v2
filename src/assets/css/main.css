@@ -1,0 +1,598 @@
+/* Baseline: 2023 */ 
+/* This CSS will work on any major browser released in 2023 or later.*/
+/* Open Issues*/
+/* Make the CSS progressive so to manage older browsers too. LOW priority.*/
+
+/* Variables */
+:root {
+  --max-content-width: 75rem;
+  --footer-font-size: 0.8rem;
+  /* Colors */
+  --accent-color: hsl(221, 47%, 51%); 
+  --accent-highlight-color: #4299e1;
+  --text-color: #2d3748ed;
+  --shadow-color: #a1a2a2;
+  --border-color: #a1a2a2;
+  --lighter-background: white;
+  --darker-background: #f7fafc;
+  /* Farfasso's color palette */
+  --main-color-orange: hsl(17, 83%, 53%);;
+  --main-color-fuchsia: hsl(332, 83%, 44%);
+  --main-color-green: hsl(74, 55%, 55%);
+  --main-color-aqua: hsl(176, 100%, 31%);
+}
+
+/* Fonts */
+@font-face {
+  font-family: Raleway;
+  src: url('../fonts/Raleway-VariableFont_wght.ttf') format('ttf');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'Barriecito';
+  src: url('../fonts/Barriecito-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* REMOVE? 
+span.italic {
+  font-style: italic;
+}
+*/
+
+/* BODY */
+body {
+  font-family: Raleway, -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+/* =================================*/
+/* Main Header with Navigation Menu */
+/* =================================*/
+.main-header {
+  position: fixed;
+  width: 100%;
+  background: var(--lighter-background);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 1000;
+
+  /* Logo */
+  & #nav-logo {
+    width: min(100%, 16rem);
+  }
+
+  & #nav-logo:hover {
+    filter: saturate(150%);
+  }
+
+  /* Menu entries*/
+  & a:hover {
+    border-bottom-width: 3px;
+    filter: saturate(150%);
+  }
+
+  & .aquaunderline {
+    border-bottom: 1px solid var(  --main-color-aqua);
+  }
+  
+  & .greenunderline {
+    border-bottom: 1px solid var(  --main-color-green);
+  }
+  
+  & .orangeunderline {
+    border-bottom: 1px solid var(  --main-color-orange);
+  }
+  
+  & .fuchsiaunderline {
+    border-bottom: 1px solid var(  --main-color-fuchsia);
+  }
+
+  & .top-nav {
+    max-width: var(--max-content-width);
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  & .nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  & .nav-links a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 200;
+    font-family: Raleway,-apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  /* Button */
+  & #cta-button {
+    background: var(--accent-color);
+    color: white;
+    width: 8rem;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  & #cta-button:hover {
+    filter: saturate(150%);
+    filter:hue-rotate(90deg);
+    border-bottom: 1px solid var(--lighter-background);
+  }
+
+  /* Language button*/
+  & #nav-lang {
+    object-position: 50% 50%;
+    max-width: 2rem;
+    max-height: 2rem;
+  }
+
+  & #nav-lang:hover {
+    filter: saturate(150%);
+  }
+
+  /* Search */
+  & .fa-solid {
+    font-size: 2rem;
+    color: var(  --accent-color);
+  }
+
+  & .fa-solid:hover {
+    filter: saturate(150%);
+    filter:hue-rotate(90deg);
+  }
+
+
+  & .search-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  & #search-input {
+    position: absolute;
+    right: 100%;
+    width: 0;
+    padding: 0.5rem;
+    border: 1px solid var(  --accent-color);
+    border-radius: 4px;
+    font-family: inherit;
+    opacity: 0;
+    transition: all 0.3s ease;
+    visibility: hidden;
+  }
+
+  & #search-input.active {
+    width: 200px;
+    opacity: 1;
+    visibility: visible;
+    margin-right: 0.5rem;
+  }
+
+  & .search-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+
+  & .search-button .fa-magnifying-glass {
+    font-size: 1.2rem;
+    color: var(  --accent-color);
+  }
+
+  & #searchResults {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 15;
+    top: 0.3em;
+    left: 0;
+    /* border: 2px solid var(--butterflass-fuchsia-color); */
+    background-color: var(--text-inverse-color);
+    overflow-y: auto;
+    z-index: 4;
+    padding: 0.4em 0.1em 0 0.1em;
+
+    & a {
+      color: var(  --accent-color);
+      border-top: 1px solid var(  --accent-color);
+    }
+  }
+}
+
+
+
+
+  /* Main */
+main {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 4rem 2rem;
+
+  /* Global styles: Links */
+  & a {
+    text-decoration: none;
+    color: var(  --main-color-fuchsia)
+  }
+
+  & a:visited, a:hover, a:active  {
+    text-decoration: underline;
+    filter: hue-rotate(145deg);
+  } /* ISSUE: Must be implemented in a different way in the touchscreen version */
+
+  /* Styling the hero blocks */
+  & .hero {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    min-height: 20rem;
+    display: grid;
+    gap: 2rem;
+    color: var(--text-color);
+    text-align: right;
+    font-size: 1.5rem;
+
+    & header {
+      & h1 {
+        font-family: 'Barriecito';
+        font-size: 2.9rem; 
+        text-shadow: 0.2rem 0.2rem 1rem var(--shadow-color);
+      }
+
+      & cite {
+        font-family: Raleway;
+        font-style: italic;
+        font-size: 1rem;
+        color: var(--text-color);
+      }
+    }
+
+    & p {
+      margin-left: 20%;
+      font-size: 1.5rem;
+      color: var(--text-color);
+      text-align: left;
+    }
+  }
+
+  & #hero { /* For 1-column hero blocks */
+    grid-template-columns: 100%;
+  }
+
+  & #cardhero { /* For 2-column hero blocks */
+    grid-template-columns: fit-content(20%) 80%;
+
+    & p {
+      margin-top: 1.5rem
+    }
+
+    & img {
+      width: 100%
+    }
+  }
+
+    /* Styling the content block */
+
+  & section.container {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-top: 1px solid var(--border-color);
+
+    & header {
+      gap: 2rem;
+
+      & h2 {
+        font-size: 1.5rem;
+        font-weight: 300;
+        color: var(--main-color-fuchsia);
+        margin-bottom: 1rem;
+      }
+    }
+
+    & section.onetopic {
+      display: grid;
+      grid-template-columns: fit-content(20%) 80%;
+      gap: 1.5rem;
+
+      & h3 {
+        color: var(--main-color-fuchsia);
+      }
+
+      & img {
+        width: 100%
+      }
+
+      & p {
+        margin-right: 5%;
+      }
+
+      & article {
+        border-bottom: 1px solid var(--border-color);
+        padding: 0;
+        margin-bottom: 2rem;
+        background-color: var(--darker-background);
+      }
+    }
+
+    & section.manytopics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+      gap: 1.5rem;
+
+      & article {
+        border: 1px solid var(--border-color);
+        padding: 0;
+
+        & img {
+          width: 100%;
+        }
+
+        & header {
+          display: grid;
+          grid-template-columns: 92% 8%;
+          gap: 0;
+
+          & h3 {
+            font-size: 0.9rem;
+            font-weight: 400;
+
+            & p {
+              display: none;
+              font-size: 0.8rem;
+              height: 0; 
+            }
+  
+            & img {
+              display: none;
+              height: 0; 
+            }
+          }
+
+          & span {
+            height: 100%;
+            font-size: 1rem;
+            color:white; 
+          }
+
+          & span:hover {
+            background-color: var(--darker-background);
+          }
+
+        }
+
+        & header:has(span:hover) {
+          & h3 {
+            /*background-color: var(--darker-background);
+            color: var(--text-color);*/
+
+            & p {
+              display: block;
+              height: auto;
+              color: var(--text-color);
+              background-color: var(--darker-background);
+              text-align: justify;
+            }
+
+
+          }
+
+        }
+
+        & header:has(p:hover) {
+          & span {
+            background-color: var(--darker-background);
+          }
+        }
+
+        & article:hover {
+          filter: saturate(150%);
+          background-color: var(--darker-background);
+        }
+      }
+    }
+
+    & article.justthedescription {
+      margin-left: 20%;
+      margin-right: 10%;
+      background-color: var(--darker-background);
+    }
+
+  }
+}
+
+/* Footer */
+footer {
+  background-color: var(--darker-background);
+  padding: 4rem 2rem;
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 2rem;
+  font-size: var(--footer-font-size);
+
+  & address {
+    
+    & header {
+      & h2 {
+        font-family: Raleway;
+        font-weight: 600;
+      }
+    }
+
+    & p {
+      font-size: var(--footer-font-size);
+      margin-bottom: 0.25rem;
+
+      & #disclaimer {
+        margin-top: 1rem;
+      }
+    }
+
+    & a {
+      font-size: var(--footer-font-size);
+      margin-bottom: 0.25rem;
+      display: block;
+      text-decoration: none;
+      color: var(  --accent-color);
+      
+      & span {
+        font-size: var(--footer-font-size);
+        margin-bottom: 0.25rem;
+        margin-right: 0.5rem;
+      }
+
+      & img {
+        margin-right: 0.5rem;
+        width: 1.5rem;
+      }
+    }
+
+    & a:hover {
+      text-decoration: underline;
+    }
+
+    & section#social-media {
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(1rem, 1fr));
+      gap: 0.5rem; 
+    }
+
+
+  }
+  
+  & h2 {
+    font-size: 1rem;
+    font-weight: 800; 
+    color: var(  --accent-color);
+    margin-bottom: 0.6rem;
+  }
+}
+
+
+
+
+/******* OLD CODE TO REFACTOR ********/
+
+
+/* SCHEDA PROGETTO*/
+
+main #projectdescription {
+  display: grid;
+  grid-template-columns: 36% 64%;
+  gap: 1rem;
+}
+
+main section#projectdescription article #partnership {
+  display: grid;
+  grid-template-columns: 40% 20% 40%;
+  gap: 1rem;
+}
+
+
+.aboutSectionTitle {
+  color: var(  --main-color-fuchsia);
+}
+/* TEAM PAGE COLORS */
+.pastcollaborations {
+  background-color: var(  --main-color-aqua);
+  color:white;
+}
+
+.board {
+  background-color: var(  --main-color-fuchsia);
+  color:white;
+}
+
+.staff {
+  background-color: var(  --main-color-orange);
+  color:white;
+}
+
+.interns {
+  background-color: var(  --main-color-green);
+  color:white;
+}
+
+.friends {
+  background-color: white;
+  color: var(  --accent-highlight-color);
+  font-size: 1rem;
+}
+
+/* Ridefinisce una proprietà di uno degli stili importati da Font Awesome */
+.fa-link {
+  margin-top: 1rem;
+}
+
+
+/* HOME PAGE COLORS */
+
+.crowddreamingworld {
+  background-color: var(  --main-color-aqua);
+  color:white;
+}
+
+.crowddreamingme {
+  background-color: var(  --main-color-fuchsia);
+  color:white;
+}
+
+.crowddreamingcommunity {
+  background-color: var(  --main-color-orange);
+  color:white;
+}
+
+.jumpin {
+  background-color: var(  --main-color-green);
+  color:white;
+}
+
+.focus {
+  background-color: var(--accent-color);
+  color:white;
+}
+
+
+
+/* Update mobile styles */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+  
+  .hero {
+    min-height: 400px;
+  }
+  
+  #search-input.active {
+    width: 150px;
+  }
+  
+  .search-container {
+    margin-left: auto;
+  }
+}

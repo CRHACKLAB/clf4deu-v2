@@ -1,0 +1,38 @@
+//footer.main-footer
+footer
+  //.footer-content
+  address
+    header
+      h2!= labels.layout.footer.leftSection
+    p!= labels.layout.footer.taxId + ": 91051320546" + " - " + labels.layout.footer.vatNumber + ": 03730820549"
+    a(href="https://www.openstreetmap.org/search?query=via%20andrea%20vici%2C%208b%20foligno#map=18/42.97180/12.67957" target="_blank") 
+      span.fa-solid.fa-location-dot 
+      | via Andrea Vici, 8b -
+      | 06039 Foligno (PG)
+    a(href="mailto:clf4d@clf4d.eu") 
+      span.fa-solid.fa-envelope 
+      | clf4d@clf4d.eu
+    span.fa-solid.fa-phone
+    | +39 379 2899151 
+  //section
+  address
+    header
+      h2!= labels.layout.footer.centerSection
+    a(href="/privacy")!= labels.layout.footer.privacy
+    p(id="disclaimer")!= labels.layout.footer.disclaimer
+    section(id="social-media")
+      a(href="https://www.facebook.com/crhacklabfoligno4d" target="_blank")
+        span.fa-brands.fa-facebook 
+        | Facebook
+      a(href="https://www.instagram.com/crhacklab/" target="_blank")
+        span.fa-brands.fa-instagram
+        | Instagram
+  //section
+  address
+    header
+      h2!= labels.layout.footer.rightSection
+      a(href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="license")
+        img(src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC")
+        img(src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY")
+        img(src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA")
+      p!= labels.layout.footer.license
