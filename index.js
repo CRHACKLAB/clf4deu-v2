@@ -28,16 +28,6 @@ Metalsmith(__dirname)
         draft: false
     }))
     .use(addCombinedRef) 
-    .use(lunr({           
-        field: [
-            { name: 'title', boost: 1 },
-            { name: 'site', boost: 25 },
-            { name: 'content', boost: 10 },
-            { name: 'combinedRef' } 
-        ],
-        ref: 'combinedRef',
-        indexPath:'./assets/json/search-index.json',
-    }))
     .use(markdown())
     .use(collectParagraphs())
     .use(
@@ -110,6 +100,15 @@ Metalsmith(__dirname)
             },
         })
     )
+    .use(lunr({           
+        field: [
+            { name: 'title', boost: 25 },
+            { name: 'content', boost: 10 },
+        ],
+        ref: 'url',
+        storeFields: ['title', 'url'],
+        indexPath:'assets/json/search-index.json',
+    }))
     // FILTER TO EVENT
     .use((files, metalsmith, done) => {
         const events = metalsmith.metadata().eventi;
@@ -147,6 +146,9 @@ function collectParagraphs() {
     return (files, metalsmith, done) => {
         Object.keys(files).forEach((filename) =>{
             const file = files[filename];
+            const html = file.contents.toString();
+            const textOnly = html.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+            file.content = textOnly
             const paragraphs = file.contents.toString().split(/^#+/);
             file.paragraphs = paragraphs;
         });
@@ -158,9 +160,15 @@ function collectParagraphs() {
 function addCombinedRef(files, metalsmith, done) {
     Object.keys(files).forEach(function (file) {
         const data = files[file];
-        const combinedRef = data.site + " | " + data.title;
-        
-        data.combinedRef = combinedRef;
+        const title = data.pageTitle || data.yamlProjectTitle || 'untitled';
+        const site = 'CLF4D';
+        const path = file.replace(/\\/g, '/').replace(/^src\//, '').replace(/\.md$/, '.html');
+
+        data.title = title;
+        data.site = site;
+        data.url = '/' + path;  // salva il link effettivo
+        data.combinedRef = `${site} | ${title}`;
     });
     done();
 }
+

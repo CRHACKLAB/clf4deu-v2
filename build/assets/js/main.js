@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const searchButton = document.querySelector('.search-button');
   const searchInput = document.querySelector('#search-input');
   let lunrIndex = null;
+  let store = {};
 
   fetch('/assets/json/search-index.json')
     .then(response => {
@@ -21,21 +22,28 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function displayResults(results) {
-        const searchResults = document.getElementById('searchResults');
-        console.log(searchResults);
-        console.log(results);
-        searchResults.innerHTML = '';
-        results.forEach(result => {
-        const pipeIndex = result.ref.indexOf('|'); 
-        const beforePipe = result.ref.substring(0, pipeIndex).trim();
-        const afterPipe = result.ref.substring(pipeIndex + 1).trim();
-        const resultBeforeSlash = result.ref.split('/')[0];
+      const searchResults = document.getElementById('searchResults');
+      searchResults.innerHTML = '';
+
+      if (results.length === 0) {
+        searchResults.style.display = 'none';
+        return;
+      }
+
+      searchResults.style.display = 'block';
+
+      results.forEach(result => {
         const a = document.createElement('a');
-        a.href = '/' + document.documentElement.lang + '/' + beforePipe;
-        a.textContent = afterPipe;
+        a.href = result.ref;
+        console.log('Result ref:', result.ref);
+        console.log('Store item:', result);
+        a.textContent = store[result.ref]?.title || 'Untitled';
         searchResults.appendChild(a);
-        });
+        const br = document.createElement('br');
+        searchResults.appendChild(br);
+      });
     }
+
 
     searchInput.addEventListener('input', function() {
         const query = this.value;

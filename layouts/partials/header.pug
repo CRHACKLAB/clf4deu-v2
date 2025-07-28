@@ -1,3 +1,5 @@
+- var lunrIndex 
+
 header.main-header
   nav.top-nav
     a(href="/" + lang + "/")
@@ -12,6 +14,45 @@ header.main-header
         img(id="nav-lang" role="button" src="/assets/media/images/icons/lang-" + (lang=="en" ? "it" : "en")  + ".png" alt=labels.layout.menu.langIconAlt lang= (lang=="en" ? "it-IT" : "en-GB"))
       .search-container
         input(type="search" id="search-input" placeholder=lang=="en" ? "Search..." : "Cerca..." aria-label="Search")
+        ul#searchResults
         button.search-button(aria-label="Toggle search")
           span.fa-solid.fa-magnifying-glass
-      ul#searchResults
+        script.
+              fetch('/assets/json/search-index.json')
+                .then(response => {
+                  if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                  }
+                  return response.json();
+                })
+                .then(data => {
+                  if (!data) {
+                    throw new Error('JSON data is empty or invalid');
+                  }
+                lunrIndex = lunr.Index.load(data); 
+                console.log(lunrIndex);
+                function performSearch(query) {
+                  const results = lunrIndex.search(query);
+                  displayResults(results);
+                }
+
+                //- function displayResults(results) {
+                //-   const searchResults = document.getElementById('searchResults');
+                //-   searchResults.innerHTML = '';
+                //-   results.forEach(result => {
+                //-     const a = document.createElement('a');
+                //-     a.href = result.ref;
+                //-     console.log("Aref", result.ref);
+                //-     a.textContent = result.ref;
+                //-     searchResults.appendChild(a);
+                //-   });
+                //- }
+
+                //- searchInput.addEventListener('input', function() {
+                //-   const query = this.value;
+                //-   performSearch(query);
+                //- });
+              })
+              .catch(error => console.error('Error loading search index global:', error));
+        
+      
