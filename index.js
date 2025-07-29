@@ -6,6 +6,8 @@ const permalinks = require('@metalsmith/permalinks');
 const collections = require('@metalsmith/collections');
 const publish = require('metalsmith-publish');
 const lunr = require('metalsmith-lunr');
+const path = require('path');
+const fs = require('fs');
 
 // Loading the localization object with the UI labels in Italian and English
 const locals = require('./src/assets/js/localization');
@@ -27,8 +29,8 @@ Metalsmith(__dirname)
     .use(publish({
         draft: false
     }))
-    .use(addCombinedRef) 
     .use(markdown())
+    .use(addCombinedRef) 
     .use(collectParagraphs())
     .use(
         collections({
@@ -100,15 +102,6 @@ Metalsmith(__dirname)
             },
         })
     )
-    .use(lunr({           
-        field: [
-            { name: 'title', boost: 25 },
-            { name: 'content', boost: 10 },
-        ],
-        ref: 'url',
-        storeFields: ['title', 'url'],
-        indexPath:'assets/json/search-index.json',
-    }))
     // FILTER TO EVENT
     .use((files, metalsmith, done) => {
         const events = metalsmith.metadata().eventi;
@@ -118,13 +111,23 @@ Metalsmith(__dirname)
             const { next, previous, ...filteredEvent } = event; // Exclude circular properties
             return filteredEvent;
         });
-    
+        
         // Assign the filtered event data back to the metadata
         metalsmith.metadata().filteredEvents = filteredEvents;
-    
+        
         done();
     })
     .use(permalinks())
+    .use(exportPageTitles())
+    .use(lunr({           
+        field: [
+            { name: 'title', boost: 25 },
+            { name: 'content', boost: 10 },
+        ],
+        ref: 'url',
+        storeFields: ['title', 'url'],
+        indexPath:'assets/json/search-index.json',
+    }))
     // .use(sendDataToJs())
     .use(layouts({
         engineOptions: {
@@ -158,17 +161,59 @@ function collectParagraphs() {
 
 // Custom plugin to add combined reference so that before pipe there's the site, after the pipe is the title of the page.
 function addCombinedRef(files, metalsmith, done) {
-    Object.keys(files).forEach(function (file) {
-        const data = files[file];
-        const title = data.pageTitle || data.yamlProjectTitle || 'untitled';
-        const site = 'CLF4D';
-        const path = file.replace(/\\/g, '/').replace(/^src\//, '').replace(/\.md$/, '.html');
+            Object.keys(files).forEach(function (file) {
+                const data = files[file];
+                let title = data.pageTitle || data.yamlProjectTitle;
+                if (!title && data.contents) {
+                    const match = data.contents.toString().match(/<h1[^>]*>(.*?)<\/h1>/i);
+                    if (match && match[1]) {
+                    title = match[1].trim();
+                    }
+                }
+                if (!title) title = 'Untitled';
+                data.title = title;
+                const site = 'CLF4D';
+                const path = file.replace(/\\/g, '/').replace(/^src\//, '').replace(/\.md$/, '.html');
+                data.site = site;
+                data.url = '/' + path;
+                data.combinedRef = `${site} | ${title}`;
+                if (file.endsWith('.html')) {
+                    console.log(file, '->', data.title);
+                }
+                console.log(data.combinedRef);
+                });
+                done();
+            }
 
-        data.title = title;
-        data.site = site;
-        data.url = '/' + path;  // salva il link effettivo
-        data.combinedRef = `${site} | ${title}`;
+// Plugin per salvare pageTitle e URL
+function exportPageTitles() {
+  return (files, metalsmith, done) => {
+    const titles = {};
+
+    Object.keys(files).forEach((file) => {
+      const data = files[file];
+      const title = data.title || data.pageTitle || data.yamlProjectTitle;
+
+      if (title) {
+        const url = data.url || '/' + file.replace(/\\/g, '/').replace(/^src\//, '').replace(/\.md$/, '.html');
+        titles[url] = title;
+        console.log(`✔️ Exporting: ${url} → "${title}"`);
+      } else {
+        console.warn(`⚠️ Skipped: ${file} has no title`);
+      }
     });
+
+    const outputPath = path.join(__dirname, 'build/assets/json/page-titles.json');
+    try {
+        fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+        fs.writeFileSync(outputPath, JSON.stringify(titles, null, 2), 'utf-8');
+        
+    } catch (err) {
+        
+    }
+    
     done();
+  };
 }
+
 

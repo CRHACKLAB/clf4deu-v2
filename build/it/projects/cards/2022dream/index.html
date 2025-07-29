@@ -1,39 +1,98 @@
-<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><meta name="description" content="Scheda del progetto Digital Reality and Educational Activities in Museums"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CRHACK LAB FOLIGNO 4D - D.R.E.A.M.</title><link rel="shortcut icon" href="/assets/media/images/icons/favicon-cl.svg" type="image/x-icon"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer"><link rel="stylesheet" href="/assets/css/main.css" media="screen"><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/0.5.12/lunr.min.js"></script><script src="/assets/js/main.js"></script></head><body><header class="main-header"><nav class="top-nav"><a href="/it/"><img id="nav-logo" src="/assets/media/images/logos/clf4d_logo_2020_lungo_exp.png" alt="Scopri il CHRACK LAB Foligno 4D"></a><div class="nav-links"><a class="aquaunderline" href="/it/about">Scoprici</a><a class="greenunderline" href="/it/team">Team</a><a class="orangeunderline" href="/it/blog">Blog</a><a class="fuchsiaunderline" href="/it/labs">Labs</a><button id="cta-button">Salta a bordo!</button><a href="/en/" role="button"><img id="nav-lang" role="button" src="/assets/media/images/icons/lang-en.png" alt="Vai all'Inglese" lang="en-GB"></a><div class="search-container"><input type="search" id="search-input" placeholder="Cerca..." aria-label="Search"><ul id="searchResults"></ul><button class="search-button" aria-label="Toggle search"><span class="fa-solid fa-magnifying-glass"></span></button><script>fetch('/assets/json/search-index.json')
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json();
-  })
-  .then(data => {
-    if (!data) {
-      throw new Error('JSON data is empty or invalid');
-    }
-  lunrIndex = lunr.Index.load(data); 
-  console.log(lunrIndex);
-  function performSearch(query) {
-    const results = lunrIndex.search(query);
-    displayResults(results);
-  }
+<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><meta name="description" content="Scheda del progetto Digital Reality and Educational Activities in Museums"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CRHACK LAB FOLIGNO 4D - D.R.E.A.M.</title><link rel="shortcut icon" href="/assets/media/images/icons/favicon-cl.svg" type="image/x-icon"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer"><link rel="stylesheet" href="/assets/css/main.css" media="screen"><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/0.5.12/lunr.min.js"></script><script src="/assets/js/main.js"></script></head><body><header class="main-header"><nav class="top-nav"><a href="/it/"><img id="nav-logo" src="/assets/media/images/logos/clf4d_logo_2020_lungo_exp.png" alt="Scopri il CHRACK LAB Foligno 4D"></a><div class="nav-links"><a class="aquaunderline" href="/it/about">Scoprici</a><a class="greenunderline" href="/it/team">Team</a><a class="orangeunderline" href="/it/blog">Blog</a><a class="fuchsiaunderline" href="/it/labs">Labs</a><button id="cta-button">Salta a bordo!</button><a href="/en/" role="button"><img id="nav-lang" role="button" src="/assets/media/images/icons/lang-en.png" alt="Vai all'Inglese" lang="en-GB"></a><div class="search-container"><input type="search" id="search-input" placeholder="Cerca..." aria-label="Search"><ul id="searchResults"></ul><button class="search-button" aria-label="Toggle search"><span class="fa-solid fa-magnifying-glass"></span></button><script>document.addEventListener('DOMContentLoaded', function() {
+  const searchButton = document.querySelector('.search-button');
+  const searchInput = document.querySelector('#search-input');
+  let lunrIndex = null;
+  let store = {};
+ Promise.all([
+    fetch('/assets/json/search-index.json').then(res => res.json()),
+    fetch('/assets/json/page-titles.json').then(res => res.json())
+  ])
+    //- .then(response => {
+    //-   if (!response.ok) throw new Error('Network response was not ok');
+    //-   return response.json();
+    //- })
+    .then(([searchData, pageTitles]) => {
 
-  //- function displayResults(results) {
-  //-   const searchResults = document.getElementById('searchResults');
-  //-   searchResults.innerHTML = '';
-  //-   results.forEach(result => {
-  //-     const a = document.createElement('a');
-  //-     a.href = result.ref;
-  //-     console.log("Aref", result.ref);
-  //-     a.textContent = result.ref;
-  //-     searchResults.appendChild(a);
-  //-   });
-  //- }
+      lunrIndex = lunr.Index.load(searchData.index || searchData);
+      store = searchData.store || {};
 
-  //- searchInput.addEventListener('input', function() {
-  //-   const query = this.value;
-  //-   performSearch(query);
-  //- });
-})
-.catch(error => console.error('Error loading search index global:', error));</script></div></div></nav></header><main><section class="hero" id="cardhero"><img src="logo-dream.webp" alt="Logo del progetto DREAM"><header><h1><q>D.R.E.A.M. - Digital Reality and Educational Activities in Museums</q></h1><cite>— Erasmus+ KA2 Program (2020/2022), <a href="https://dream-project.eu">https://dream-project.eu</a></cite><p>Qui va inserito un testo di al massimo qualche centinaio di caratteri che faccia capire quale sia il valore del progetto per il CLF4D e/o per il visitatore che sta leggendo la pagina. Probabilmente dovrebbe essere lo stesso testo che appare nella riga del progetto nella pagina di indice dei progetti. Questi sono circa 350 caratteri per farsi un'idea.</p></header></section><section id="projectdescription"><aside><nav><ul><li><a href="#partenariato">Partenariato</a></li><li><a href="#sezione02">Obiettivi</a></li><li><a href="#sezione03">Attività principali</a></li><li><a href="#sezione03">Prodotti rimarchevoli</a></li><li><a href="#sezione03">Dati del progetto</a></li></ul></nav></aside><article><h2>Partenariato </h2><section id="partnership"><p>Descrizione</p><p>Stato </p><p>Sito web </p><!----><p>CLF4D (C)</p><p>Italia </p><p>https://clf4d.eu </p><!----><p>Partner 2</p><p>Stato 2</p><p>https://website2.com </p></section><h2 id="partenariato">Partenariato</h2>
+      function performSearch(query) {
+        const results = lunrIndex.search(query);
+        displayResults(results);
+      }
+
+      function displayResults(results) {
+        const searchResults = document.getElementById('searchResults');
+        searchResults.innerHTML = '';
+
+        if (results.length === 0) {
+          searchResults.style.display = 'none';
+          return;
+        }
+
+        searchResults.style.display = 'block';
+
+        results.forEach(result => {
+          const a = document.createElement('a');
+          a.href = result.ref;
+          a.textContent = pageTitles[result.ref] || store[result.ref].title || 'Untitled';
+          searchResults.appendChild(a);
+          searchResults.appendChild(document.createElement('br'));
+        });
+      }
+
+      searchInput.addEventListener('input', function() {
+        const query = this.value;
+        performSearch(query);
+      });
+    })
+    .catch(error => console.error('Error loading search index global:', error));
+
+  searchButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    searchInput.classList.toggle('active');
+    if (searchInput.classList.contains('active')) {
+      searchInput.focus();
+    }
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.search-container')) {
+      searchInput.classList.remove('active');
+    }
+  });
+
+  searchInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      searchInput.classList.remove('active');
+    }
+  });
+});
+
+function addCombinedRef(files, metalsmith, done) {
+  Object.keys(files).forEach(function (file) {
+    const data = files[file];
+    let title = data.pageTitle || data.yamlProjectTitle;
+    if (!title && data.contents) {
+      const match = data.contents.toString().match(/<h1[^>]*>(.*?)<\/h1>/i);
+      if (match && match[1]) {
+        title = match[1].trim();
+      }
+    }
+    if (!title) title = 'Untitled';
+    data.title = title;
+    const site = 'CLF4D';
+    const path = file.replace(/\\/g, '/').replace(/^src\//, '').replace(/\.md$/, '.html');
+    data.site = site;
+    data.url = '/' + path;
+    data.combinedRef = `${site} | ${title}`;
+    if (file.endsWith('.html')) {
+      console.log(file, '->', data.title);
+    }
+    console.log(data.combinedRef);
+  });
+  done();
+}</script></div></div></nav></header><main><section class="hero" id="cardhero"><img src="logo-dream.webp" alt="Logo del progetto DREAM"><header><h1><q>D.R.E.A.M. - Digital Reality and Educational Activities in Museums</q></h1><cite>— Erasmus+ KA2 Program (2020/2022), <a href="https://dream-project.eu">https://dream-project.eu</a></cite><p>Qui va inserito un testo di al massimo qualche centinaio di caratteri che faccia capire quale sia il valore del progetto per il CLF4D e/o per il visitatore che sta leggendo la pagina. Probabilmente dovrebbe essere lo stesso testo che appare nella riga del progetto nella pagina di indice dei progetti. Questi sono circa 350 caratteri per farsi un'idea.</p></header></section><section id="projectdescription"><aside><nav><ul><li><a href="#partenariato">Partenariato</a></li><li><a href="#sezione02">Obiettivi</a></li><li><a href="#sezione03">Attività principali</a></li><li><a href="#sezione03">Prodotti rimarchevoli</a></li><li><a href="#sezione03">Dati del progetto</a></li></ul></nav></aside><article><h2>Partenariato </h2><section id="partnership"><p>Descrizione</p><p>Stato </p><p>Sito web </p><!----><p>CLF4D (C)</p><p>Italia </p><p>https://clf4d.eu </p><!----><p>Partner 2</p><p>Stato 2</p><p>https://website2.com </p></section><h2 id="partenariato">Partenariato</h2>
 <table>
 <thead>
 <tr>
