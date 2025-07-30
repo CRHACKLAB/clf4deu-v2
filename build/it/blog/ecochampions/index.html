@@ -1,0 +1,105 @@
+<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><meta name="description" content="Blog del progetto Eco Champions"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CRHACK LAB FOLIGNO 4D - Eco Champions</title><link rel="shortcut icon" href="/assets/media/images/icons/favicon-cl.svg" type="image/x-icon"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer"><link rel="stylesheet" href="/assets/css/main.css" media="screen"><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/0.5.12/lunr.min.js"></script><script src="/assets/js/main.js"></script></head><body><header class="main-header"><nav class="top-nav"><a href="/it/"><img id="nav-logo" src="/assets/media/images/logos/clf4d_logo_2020_lungo_exp.png" alt="Scopri il CHRACK LAB Foligno 4D"></a><div class="nav-links"><a class="aquaunderline" href="/it/about">Scoprici</a><a class="greenunderline" href="/it/team">Team</a><a class="orangeunderline" href="/it/blog">Blog</a><a class="fuchsiaunderline" href="/it/labs">Labs</a><button id="cta-button">Salta a bordo!</button><a href="/en/" role="button"><img id="nav-lang" role="button" src="/assets/media/images/icons/lang-en.png" alt="Vai all'Inglese" lang="en-GB"></a><div class="search-container"><input type="search" id="search-input" placeholder="Cerca..." aria-label="Search"><ul id="searchResults"></ul><button class="search-button" aria-label="Toggle search"><span class="fa-solid fa-magnifying-glass"></span></button><script>document.addEventListener('DOMContentLoaded', function() {
+  const searchButton = document.querySelector('.search-button');
+  const searchInput = document.querySelector('#search-input');
+  let lunrIndex = null;
+  let store = {};
+ Promise.all([
+    fetch('/assets/json/search-index.json').then(res => res.json()),
+    fetch('/assets/json/page-titles.json').then(res => res.json())
+  ])
+    //- .then(response => {
+    //-   if (!response.ok) throw new Error('Network response was not ok');
+    //-   return response.json();
+    //- })
+    .then(([searchData, pageTitles]) => {
+
+      lunrIndex = lunr.Index.load(searchData.index || searchData);
+      store = searchData.store || {};
+
+      function performSearch(query) {
+        const results = lunrIndex.search(query);
+        displayResults(results);
+      }
+
+      function displayResults(results) {
+        const searchResults = document.getElementById('searchResults');
+        searchResults.innerHTML = '';
+
+        if (results.length === 0) {
+          searchResults.style.display = 'none';
+          return;
+        }
+
+        searchResults.style.display = 'block';
+
+        results.forEach(result => {
+          const a = document.createElement('a');
+          a.href = result.ref;
+          a.textContent = pageTitles[result.ref] || store[result.ref].title || 'Untitled';
+          searchResults.appendChild(a);
+          searchResults.appendChild(document.createElement('br'));
+        });
+      }
+
+      searchInput.addEventListener('input', function() {
+        const query = this.value;
+        performSearch(query);
+      });
+    })
+    .catch(error => console.error('Error loading search index global:', error));
+
+  searchButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    searchInput.classList.toggle('active');
+    if (searchInput.classList.contains('active')) {
+      searchInput.focus();
+    }
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.search-container')) {
+      searchInput.classList.remove('active');
+    }
+  });
+
+  searchInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      searchInput.classList.remove('active');
+    }
+  });
+});
+
+function addCombinedRef(files, metalsmith, done) {
+  Object.keys(files).forEach(function (file) {
+    const data = files[file];
+    let title = data.pageTitle || data.yamlProjectTitle;
+    if (!title && data.contents) {
+      const match = data.contents.toString().match(/<h1[^>]*>(.*?)<\/h1>/i);
+      if (match && match[1]) {
+        title = match[1].trim();
+      }
+    }
+    if (!title) title = 'Untitled';
+    data.title = title;
+    const site = 'CLF4D';
+    const path = file.replace(/\\/g, '/').replace(/^src\//, '').replace(/\.md$/, '.html');
+    data.site = site;
+    data.url = '/' + path;
+    data.combinedRef = `${site} | ${title}`;
+    if (file.endsWith('.html')) {
+      console.log(file, '->', data.title);
+    }
+    console.log(data.combinedRef);
+  });
+  done();
+}</script></div></div></nav></header><main><article class="blog-post"><header class="post-header"><h1>Eco Champions</h1><time datetime="2025-05-31T00:00:00.000Z">31/05/2025</time></header><div class="post-content"><p>Due giorni di attività gratuite aperte a tutti e dedicate ad ambiente, gestione sostenibile dei rifiuti ed economia circolare.  </p>
+<p><strong>D-Village Spello. Arriva l’evento green dell’estate umbra “Radici Urbane. Generazioni a confronto su Economia Circolare, BioEconomia e Arte”.</strong></p>
+<p><em>Il Festival delle Buone Pratiche, nato dal Progetto Europeo Eco-Champions.</em></p>
+<p>Il <strong>4 e 5 Luglio, Spello</strong> si trasformerà nel villaggio delle Buone Pratiche Sostenibili grazie all’evento <strong>Eco-Champions: Radici Urbane. Generazioni a confronto su Economia Circolare, BioEconomia e Arte.</strong><br> Un evento articolato all’interno del <strong>D-Village</strong> e <strong>Social Hackathon Umbria</strong> che, giunto alla sua nona edizione, invaderà Spello dal 3 al 6 Luglio 2025.</p>
+<p>Le giornate del <strong>4 e 5 Luglio</strong> saranno dedicate all’ambiente, alla gestione sostenibile dei rifiuti, alle economie circolari e alle buone pratiche, con un programma ricco di <strong>attività gratuite e aperte a tutti</strong>. L’intento di <strong>Radici Urbane</strong> è infatti quello di uscire dal circuito chiuso dedicato agli “addetti ai lavori” per coinvolgere famiglie, giovani e meno giovani, in un confronto intergenerazionale che possa instillare consapevolezza, responsabilità individuali verso l’ambiente e fornire strumenti concreti per consentire ad ognuno di fare la propria parte.			</p>
+<p>L&#39;emergenza climatica del resto ce lo impone: occorrono azioni concrete e collaborative per affrontare le sfide globali. A tal proposito Radici Urbane nasce come evento promotore di <strong>Eco-Champions</strong>, progetto nato nell’ambito del 𝗣𝗿𝗼𝗴𝗿𝗮𝗺𝗺𝗮 𝗖𝗘𝗥𝗩 co-finanziato dall&#39;𝗨𝗻𝗶𝗼𝗻𝗲 𝗘𝘂𝗿𝗼𝗽𝗲𝗮 e della durata di 24 mesi che ha come principale intento la mobilitazione e il coinvolgimento attivo dei cittadini e delle autorità locali di 5 paesi Europei (Italia, Spagna, Belgio, Grecia e Kosovo), in un dialogo costruttivo e in attività pratiche fondate sui temi della sostenibilità ambientale.</p>
+<p><strong>Il Programma</strong><br> <strong>Venerdì 4 Luglio dalle 18.00 alle 19.30 si partirà</strong> con una passeggiata collettiva all’<strong>Acquedotto Romano</strong>, con un percorso olistico di attivazione del benessere psico-fisico tra natura, lentezza e conversazione insieme a <strong>WATT - Walk, Think, Talk.</strong>					</p>
+<p><strong>La passeggiata si ripeterà il 5 Luglio dalle ore 8.30 alle ore 10.00</strong>										</p>
+<p><strong>Sabato 5 Luglio</strong>, dalle ore <strong>11.00 alle ore 16.30</strong>, si svolgerà il workshop <strong>Bioeconomia per la BioDiversitArte</strong>, pensato per tutt* e a cura di APRE - Agenzia per la Promozione della Ricerca Europea. Un laboratorio pratico e creativo per immaginare nuove soluzioni sostenibili guidati dagli esperti di APRE. L’appuntamento per partecipare al workshop del 5 Luglio è all’Infopoint del Social Hackathon Umbria, presso Piazza della Repubblica - Spello, alle ore 11.00. </p>
+</div></article></main><!--footer.main-footer--><footer><!--.footer-content--><address><header><h2>CRHACK LAB FOLIGNO 4D OdV</h2></header><p>Codice Fiscale: 91051320546 - Partita IVA: 03730820549</p><a href="https://www.openstreetmap.org/search?query=via%20andrea%20vici%2C%208b%20foligno#map=18/42.97180/12.67957" target="_blank"> <span class="fa-solid fa-location-dot"> </span>via Andrea Vici, 8b -
+06039 Foligno (PG)</a><a href="mailto:clf4d@clf4d.eu"> <span class="fa-solid fa-envelope"> </span>clf4d@clf4d.eu</a><span class="fa-solid fa-phone"></span>+39 379 2899151 </address><!--section--><address><header><h2>Privacy & Social media</h2></header><a href="/privacy">Informativa privacy</a><p id="disclaimer">Siamo vincolati ad attuare campagne di disseminazione sui seguenti social media da obblighi contrattuali legati ai finanziamenti pubblici ricevuti. Tuttavia, vi invitiamo ad evitare o limitare l'uso dei social media per proteggere la vostra privacy ed evitare potenziali rischi per la salute.</p><section id="social-media"><a href="https://www.facebook.com/crhacklabfoligno4d" target="_blank"><span class="fa-brands fa-facebook"> </span>Facebook</a><a href="https://www.instagram.com/crhacklab/" target="_blank"><span class="fa-brands fa-instagram"></span>Instagram</a></section></address><!--section--><address><header><h2>Creative Commons Attribution-ShareAlike 4.0 International</h2><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="license"><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA"></a><p>This license requires that reusers give credit to the creator. It allows reusers to distribute, remix, adapt, and build upon the material in any medium or format, even for commercial purposes. If others remix, adapt, or build upon the material, they must license the modified material under identical terms.</p></header></address></footer></body></html>
