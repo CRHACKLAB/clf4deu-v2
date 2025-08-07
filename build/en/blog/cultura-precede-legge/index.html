@@ -1,0 +1,121 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="description" content="CrHack Lab F4D's blog"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CRHACK LAB FOLIGNO 4D - La cultura precede la legge</title><link rel="shortcut icon" href="/assets/media/images/icons/favicon-cl.svg" type="image/x-icon"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer"><link rel="stylesheet" href="/assets/css/main.css" media="screen"><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/0.5.12/lunr.min.js"></script><script src="/assets/js/main.js"></script></head><body><header class="main-header"><nav class="top-nav"><a href="/en/"><img id="nav-logo" src="/assets/media/images/logos/clf4d_logo_2020_lungo_exp.png" alt="Discover CHRACK LAB Foligno 4D"></a><div class="nav-links"><a class="aquaunderline" href="/en/about">About</a><a class="greenunderline" href="/en/team">Team</a><a class="orangeunderline" href="/en/blog">Blog</a><a class="fuchsiaunderline" href="/en/labs">Labs</a><button id="cta-button">Jump in!</button><a href="/it/" role="button"><img id="nav-lang" role="button" src="/assets/media/images/icons/lang-it.png" alt="Go to Italian Language" lang="it-IT"></a><div class="search-container"><input type="search" id="search-input" placeholder="Search..." aria-label="Search"><ul id="search-results"></ul><button class="search-button" aria-label="Toggle search"><span class="fa-solid fa-magnifying-glass"></span></button><script>document.addEventListener('DOMContentLoaded', function() {
+  const searchButton = document.querySelector('.search-button');
+  const searchInput = document.querySelector('#search-input');
+  let lunrIndex = null;
+  let store = {};
+  Promise.all([
+    fetch('/assets/json/search-index.json').then(res => res.json()),
+    fetch('/assets/json/page-titles.json').then(res => res.json())
+  ])
+    //- .then(response => {
+    //-   if (!response.ok) throw new Error('Network response was not ok');
+    //-   return response.json();
+    //- })
+    .then(([searchData, pageTitles]) => {
+
+      lunrIndex = lunr.Index.load(searchData.index || searchData);
+      store = searchData.store || {};
+
+      function performSearch(query) {
+        const results = lunrIndex.search(query);
+        displayResults(results);
+      }
+
+      function displayResults(results) {
+        const searchResults = document.getElementById('search-results');
+        searchResults.innerHTML = '';
+
+        if (results.length === 0) {
+          searchResults.style.display = 'none';
+          return;
+        }
+
+        searchResults.style.display = 'block';
+
+        results.forEach(result => {
+          const a = document.createElement('a');
+          a.href = result.ref;
+          a.textContent = pageTitles[result.ref] || store[result.ref].title || 'Untitled';
+          searchResults.appendChild(a);
+          searchResults.appendChild(document.createElement('br'));
+        });
+      }
+
+      searchInput.addEventListener('input', function() {
+        const query = this.value;
+        performSearch(query);
+      });
+    })
+    .catch(error => console.error('Error loading search index global:', error));
+
+  searchButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    searchInput.classList.toggle('active');
+    if (searchInput.classList.contains('active')) {
+      searchInput.focus();
+    }
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.search-container')) {
+      searchInput.classList.remove('active');
+    }
+  });
+
+  searchInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      searchInput.classList.remove('active');
+    }
+  });
+});
+
+function addCombinedRef(files, metalsmith, done) {
+  Object.keys(files).forEach(function (file) {
+    const data = files[file];
+    let title = data.pageTitle || data.yamlProjectTitle;
+    if (!title && data.contents) {
+      const match = data.contents.toString().match(/<h1[^>]*>(.*?)<\/h1>/i);
+      if (match && match[1]) {
+        title = match[1].trim();
+      }
+    }
+    if (!title) title = 'Untitled';
+    data.title = title;
+    const site = 'CLF4D';
+    const path = file.replace(/\\/g, '/').replace(/^src\//, '').replace(/\.md$/, '.html');
+    data.site = site;
+    data.url = '/' + path;
+    data.combinedRef = `${site} | ${title}`;
+    if (file.endsWith('.html')) {
+      console.log(file, '->', data.title);
+    }
+    console.log(data.combinedRef);
+  });
+  done();
+}</script></div></div></nav></header><main><article class="blog-post"><header class="post-header"><h1>La cultura precede la legge</h1><time datetime="2025-05-29T00:00:00.000Z">29/05/2025</time></header><div class="post-content"><blockquote>
+<p>Summary of the speech by Paolo Russo, president of CRHACK LAB F4D, in the Aula Magna of the Faculty of Economics of the University of Perugia at the presentation of the NeXT Hackathon of the Solidarity Economy on 7 October 2019.</p>
+</blockquote>
+<p>To innovate means to implement a process of change that leads to improvement for a community, broadly understood from the small local organisation to the large unstructured informal network.</p>
+<p>Trying to be an Innovator means continuously cultivating one&#39;s incompetencies. The more incompetent one becomes, the more one is in a position to innovate. It means being exposed to the new in massive doses.</p>
+<p>The Innovator&#39;s dilemma is to choose between trying to change the past or trying to change the future. In the first case he tries to change the laws and rules. In the second he tries to change the culture. Culture always precedes Law.</p>
+<p>CRHACK LAB FOLIGNO 4D was born to change culture. The culture of digital.</p>
+<p>How?</p>
+<p>First of all, we want to create dependence on innovative thinking.</p>
+<p>We use the Art of Crowdreaming, a method designed to turn an individual&#39;s dream into a story shared by enough people for it to be turned into reality through a rigorous production process inspired by that of the great Hollywood films. The idea is that if a project has worked, then it has a success story. With the Art of Crowddreaming we start by imagining the desirable happy ending and reconstruct backwards the success story that must have led us there. Then we try to produce it in reality.</p>
+<p>We are trying to imagine the Invisible City&#39;s Inexistent Professions: four-dimensional director, indeterministic scriptwriter, stigmergic teacher, chaotic photographer, diffuse stylist, connective musician, quantised curator, third-millennium amanuensis...</p>
+<p>We operate by creating concrete projects along three main programming axes:</p>
+<ul>
+<li><p>We explore the future of entertainment and edutainment with the creation of the interactive StoryWorld ‘Calls from the Other Side’, based on the story ‘The Three Rings’;</p>
+</li>
+<li><p>We explore the future of publishing, particularly school publishing, with the augmented reality of ‘It&#39;s Bigger on the Inside’;</p>
+</li>
+<li><p>We explore the future of heritage appreciation and professional scenario management training through the immersive environments of the programme ‘All the World&#39;s a Stage’.</p>
+</li>
+</ul>
+<p>Along this road we continuously come across professions that do not yet exist and use the elements we observe to define new professional profiles and start training young people in them</p>
+<p>In practice, we are organised as a voluntary association running an Open Lab, where we give members free access to augmented and virtual reality technologies, involving them in real projects with the support of a multidisciplinary team of mentors. It is important to emphasise that the lab has a strongly localised nature: in a future dominated by fantastic but homologising machine learning and artificial intelligence algorithms, the cultural specificity of the invididuo and its ability to improvise novel solutions must be cultivated. This is why in our name, in addition to the reference to Crowddreaming and the laboratory nature, there are also references to hacking and to our city.</p>
+<p>In some ways you could say that at CRHACK LAB FOLIGNO 4D we are inventing the Craftsmen of the Third Millennium, the artisans who will urbanise the invisible digital dimension of reality.</p>
+<p>And, who knows, maybe we are inventing your craft too.</p>
+<p>You are welcome to come and find out.</p>
+</div></article></main><!--footer.main-footer--><footer><!--.footer-content--><address><header><h2>CRHACK LAB FOLIGNO 4D OdV</h2></header><p>Tax ID: 91051320546 - VAT Number: 03730820549</p><a href="https://www.openstreetmap.org/search?query=via%20andrea%20vici%2C%208b%20foligno#map=18/42.97180/12.67957" target="_blank"> <span class="fa-solid fa-location-dot"> </span>via Andrea Vici, 8b -
+06039 Foligno (PG)</a><a href="mailto:clf4d@clf4d.eu"> <span class="fa-solid fa-envelope"> </span>clf4d@clf4d.eu</a><span class="fa-solid fa-phone"></span>+39 379 2899151 </address><!--section--><address><header><h2>Privacy & Social media</h2></header><a href="/privacy">Privacy policy</a><p id="disclaimer">We are bound to carry out dissemination campaigns on the following social media due to contractual obligations related to public funding. However, we strongly recommend you to avoid or limit the use of social media to protect your privacy and avoid potential health issues.</p><section id="social-media"><a href="https://www.facebook.com/crhacklabfoligno4d" target="_blank"><span class="fa-brands fa-facebook"> </span>Facebook</a><a href="https://www.instagram.com/crhacklab/" target="_blank"><span class="fa-brands fa-instagram"></span>Instagram</a></section></address><!--section--><address><header><h2>Creative Commons Attribution-ShareAlike 4.0 International</h2><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="license"><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA"></a><p>This license requires that reusers give credit to the creator. It allows reusers to distribute, remix, adapt, and build upon the material in any medium or format, even for commercial purposes. If others remix, adapt, or build upon the material, they must license the modified material under identical terms.</p></header></address></footer></body></html>

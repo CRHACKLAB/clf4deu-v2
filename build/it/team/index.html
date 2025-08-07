@@ -1,9 +1,9 @@
-<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><meta name="description" content="Il team del CrHack Lab"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CRHACK LAB FOLIGNO 4D - Il team</title><link rel="shortcut icon" href="/assets/media/images/icons/favicon-cl.svg" type="image/x-icon"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer"><link rel="stylesheet" href="/assets/css/main.css" media="screen"><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/0.5.12/lunr.min.js"></script><script src="/assets/js/main.js"></script></head><body><header class="main-header"><nav class="top-nav"><a href="/it/"><img id="nav-logo" src="/assets/media/images/logos/clf4d_logo_2020_lungo_exp.png" alt="Scopri il CHRACK LAB Foligno 4D"></a><div class="nav-links"><a class="aquaunderline" href="/it/about">Scoprici</a><a class="greenunderline" href="/it/team">Team</a><a class="orangeunderline" href="/it/blog">Blog</a><a class="fuchsiaunderline" href="/it/labs">Labs</a><button id="cta-button">Salta a bordo!</button><a href="/en/" role="button"><img id="nav-lang" role="button" src="/assets/media/images/icons/lang-en.png" alt="Vai all'Inglese" lang="en-GB"></a><div class="search-container"><input type="search" id="search-input" placeholder="Cerca..." aria-label="Search"><ul id="searchResults"></ul><button class="search-button" aria-label="Toggle search"><span class="fa-solid fa-magnifying-glass"></span></button><script>document.addEventListener('DOMContentLoaded', function() {
+<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><meta name="description" content="Il team del CrHack Lab"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CRHACK LAB FOLIGNO 4D - Il team</title><link rel="shortcut icon" href="/assets/media/images/icons/favicon-cl.svg" type="image/x-icon"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer"><link rel="stylesheet" href="/assets/css/main.css" media="screen"><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/0.5.12/lunr.min.js"></script><script src="/assets/js/main.js"></script></head><body><header class="main-header"><nav class="top-nav"><a href="/it/"><img id="nav-logo" src="/assets/media/images/logos/clf4d_logo_2020_lungo_exp.png" alt="Scopri il CHRACK LAB Foligno 4D"></a><div class="nav-links"><a class="aquaunderline" href="/it/about">Scoprici</a><a class="greenunderline" href="/it/team">Team</a><a class="orangeunderline" href="/it/blog">Blog</a><a class="fuchsiaunderline" href="/it/labs">Labs</a><button id="cta-button">Salta a bordo!</button><a href="/en/" role="button"><img id="nav-lang" role="button" src="/assets/media/images/icons/lang-en.png" alt="Vai all'Inglese" lang="en-GB"></a><div class="search-container"><input type="search" id="search-input" placeholder="Cerca..." aria-label="Search"><ul id="search-results"></ul><button class="search-button" aria-label="Toggle search"><span class="fa-solid fa-magnifying-glass"></span></button><script>document.addEventListener('DOMContentLoaded', function() {
   const searchButton = document.querySelector('.search-button');
   const searchInput = document.querySelector('#search-input');
   let lunrIndex = null;
   let store = {};
- Promise.all([
+  Promise.all([
     fetch('/assets/json/search-index.json').then(res => res.json()),
     fetch('/assets/json/page-titles.json').then(res => res.json())
   ])
@@ -22,7 +22,7 @@
       }
 
       function displayResults(results) {
-        const searchResults = document.getElementById('searchResults');
+        const searchResults = document.getElementById('search-results');
         searchResults.innerHTML = '';
 
         if (results.length === 0) {

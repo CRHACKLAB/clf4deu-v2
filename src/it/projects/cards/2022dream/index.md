@@ -6,7 +6,7 @@ pageDescription: Scheda del progetto Digital Reality and Educational Activities 
 pageLang: it
 yamlProjectId: dream
 yamlProjectTitle: D.R.E.A.M. - Digital Reality and Educational Activities in Museums
-yamlProjectLogo: logo-dream.webp
+yamlProjectLogo: dream.jpg
 yamlProjectLogoAlt: Logo del progetto DREAM
 yamlFundings: Erasmus+ KA2 Program
 yamlStartYear: 2020

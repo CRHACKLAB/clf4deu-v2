@@ -1,0 +1,165 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="description" content="L'Arte come Mezzo per l'Inclusione e l'Accessibiltà"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CRHACK LAB FOLIGNO 4D - ArteMIA</title><link rel="shortcut icon" href="/assets/media/images/icons/favicon-cl.svg" type="image/x-icon"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer"><link rel="stylesheet" href="/assets/css/main.css" media="screen"><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/0.5.12/lunr.min.js"></script><script src="/assets/js/main.js"></script></head><body><header class="main-header"><nav class="top-nav"><a href="/en/"><img id="nav-logo" src="/assets/media/images/logos/clf4d_logo_2020_lungo_exp.png" alt="Discover CHRACK LAB Foligno 4D"></a><div class="nav-links"><a class="aquaunderline" href="/en/about">About</a><a class="greenunderline" href="/en/team">Team</a><a class="orangeunderline" href="/en/blog">Blog</a><a class="fuchsiaunderline" href="/en/labs">Labs</a><button id="cta-button">Jump in!</button><a href="/it/" role="button"><img id="nav-lang" role="button" src="/assets/media/images/icons/lang-it.png" alt="Go to Italian Language" lang="it-IT"></a><div class="search-container"><input type="search" id="search-input" placeholder="Search..." aria-label="Search"><ul id="search-results"></ul><button class="search-button" aria-label="Toggle search"><span class="fa-solid fa-magnifying-glass"></span></button><script>document.addEventListener('DOMContentLoaded', function() {
+  const searchButton = document.querySelector('.search-button');
+  const searchInput = document.querySelector('#search-input');
+  let lunrIndex = null;
+  let store = {};
+  Promise.all([
+    fetch('/assets/json/search-index.json').then(res => res.json()),
+    fetch('/assets/json/page-titles.json').then(res => res.json())
+  ])
+    //- .then(response => {
+    //-   if (!response.ok) throw new Error('Network response was not ok');
+    //-   return response.json();
+    //- })
+    .then(([searchData, pageTitles]) => {
+
+      lunrIndex = lunr.Index.load(searchData.index || searchData);
+      store = searchData.store || {};
+
+      function performSearch(query) {
+        const results = lunrIndex.search(query);
+        displayResults(results);
+      }
+
+      function displayResults(results) {
+        const searchResults = document.getElementById('search-results');
+        searchResults.innerHTML = '';
+
+        if (results.length === 0) {
+          searchResults.style.display = 'none';
+          return;
+        }
+
+        searchResults.style.display = 'block';
+
+        results.forEach(result => {
+          const a = document.createElement('a');
+          a.href = result.ref;
+          a.textContent = pageTitles[result.ref] || store[result.ref].title || 'Untitled';
+          searchResults.appendChild(a);
+          searchResults.appendChild(document.createElement('br'));
+        });
+      }
+
+      searchInput.addEventListener('input', function() {
+        const query = this.value;
+        performSearch(query);
+      });
+    })
+    .catch(error => console.error('Error loading search index global:', error));
+
+  searchButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    searchInput.classList.toggle('active');
+    if (searchInput.classList.contains('active')) {
+      searchInput.focus();
+    }
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.search-container')) {
+      searchInput.classList.remove('active');
+    }
+  });
+
+  searchInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      searchInput.classList.remove('active');
+    }
+  });
+});
+
+function addCombinedRef(files, metalsmith, done) {
+  Object.keys(files).forEach(function (file) {
+    const data = files[file];
+    let title = data.pageTitle || data.yamlProjectTitle;
+    if (!title && data.contents) {
+      const match = data.contents.toString().match(/<h1[^>]*>(.*?)<\/h1>/i);
+      if (match && match[1]) {
+        title = match[1].trim();
+      }
+    }
+    if (!title) title = 'Untitled';
+    data.title = title;
+    const site = 'CLF4D';
+    const path = file.replace(/\\/g, '/').replace(/^src\//, '').replace(/\.md$/, '.html');
+    data.site = site;
+    data.url = '/' + path;
+    data.combinedRef = `${site} | ${title}`;
+    if (file.endsWith('.html')) {
+      console.log(file, '->', data.title);
+    }
+    console.log(data.combinedRef);
+  });
+  done();
+}</script></div></div></nav></header><main><section class="hero" id="cardhero"><img src="ArteMia.png" alt="Logo del progetto ArteMIA"><header><h1><q>ArteMIA - L'Arte come Mezzo per l'Inclusione e l'Accessibilità</q></h1><cite>— Erasmus+ KA2 Program (2020/2022), <a href="https://dream-project.eu">https://dream-project.eu</a></cite><p class="project-value">ArteMIA is the project line of CHRACK LAB F4D that explores the potential of the combination of Digital Technologies and Art as a Means for Inclusion and Accessibility. ArteMIA is about making museums more accessible and welcoming by writing guides based on the *Easy to Read* method for writing texts that people with cognitive disabilities can read and understand. It is also to collaborate with social cooperatives to include people with cognitive disabilities in the process of conception and creation of the itinerary, which will be realised following the rules of the *Easy to Read* approach and applying the Methodology devised by the Erasmus+ project ACCEASY, Easy to Read, Easy to Access offering them an opportunity for personal growth through the full enjoyment of museums.</p></header></section><section id="projectdescription"><aside><nav><ul><li><a href="#partenariato">Partenariato</a></li><li><a href="#obiettivi">Obiettivi</a></li><li><a href="#attività-principali">Attività principali</a></li><li><a href="#prodotti-rimarchevoli">Prodotti rimarchevoli</a></li><li><a href="#dati-del-progetto">Dati del progetto</a></li></ul></nav></aside><article><h4 id="objectives">Objectives</h4>
+<p>To make cultural places and works of art <strong>usable</strong>, <strong>inclusive</strong> and <strong>accessible</strong> to the widest possible public. </p>
+<h4 id="results">Results</h4>
+<p>The tangible results, co-constructed by the beneficiaries themselves and which made the museums accessible, are:</p>
+<ul>
+<li>The production of a guide of the <strong>Diocesan Museum of Foligno</strong> in <em>Easy to Read</em>.</li>
+<li>The production of a photographic guide of the Museum.</li>
+<li>A virtual reworking of the museum spaces in <strong>Mozilla Hubs</strong>.</li>
+<li>The recipients and protagonists of the project are users with cognitive disabilities and autism spectrum disorders.</li>
+</ul>
+<h4 id="status">Status</h4>
+<p><strong>Concluded</strong>: </p>
+<ul>
+<li>the first project at the Museo Capitolare Diocesano in Foligno </li>
+<li>Viaggio alla Scoperta dei Borghi along the Strada del Sagrantino</li>
+</ul>
+<p><strong>In work in progress</strong>: </p>
+<ul>
+<li>the project at the CIAC Foligno Pole and the ArteMIA Guide.</li>
+</ul>
+<h3 id="artemia-art-for-inclusion-and-accessibility---visiting-guide-to-the-diocesan-chapter-museum-in-foligno">ArteMIA-Art for Inclusion and Accessibility - Visiting Guide to the Diocesan Chapter Museum in Foligno</h3>
+<p>The ArteMIA Project was an itinerary of discovery and accessibility to the cultural heritage centred on the works housed in the Diocesan Museum of Foligno through photographic art-therapy workshops. 
+The tangible results, available in italian only, co-constructed by the beneficiaries themselves and which made the Museum accessible, are:</p>
+<ul>
+<li><p><a href="../../../assets/pdf/en/DEP_EASY%20TO%20READ%20(2).pdf">Diocesan Museum Guide in Easy to Read</a></p>
+</li>
+<li><p><a href="../../../assets/pdf/en/DEP_EASY%20TO%20PHOTO%20(2).pdf">Diocesan Museum Photographic Guide</a></p>
+</li>
+</ul>
+<p>The recipients and protagonists of the project are users with cognitive disabilities and autism spectrum disorders.</p>
+<p>Partners:
+<img src="../../../assets/media/graphics/partners/Logo-CLF4D-2020_1.png" alt="Logo ChrackLab"> 
+<img src="../../../assets/media/graphics/partners/LOGO%20ATLAS.png" alt="Logo Fondazione Atlas">
+<img src="../../../assets/media/graphics/partners/Logo%20Diocesi%20Foligno.jpg" alt="Logo Diocesi Foligno">
+<img src="../../../assets/media/graphics/partners/Museo%20capitolare%20Foligno.jpg" alt="Logo Museo Diocesano Foligno">
+<img src="../../../assets/media/graphics/partners/locomotiva.jpeg" alt="Logo Locomotiva">
+<img src="../../../assets/media/graphics/partners/logo_USL-01.png" alt="Logo UslUmbria2"></p>
+<p>Founded by:
+<img src="../../../assets/media/graphics/partners/logoRegioneUmbria.jpg" alt="Logo UslUmbria2"></p>
+<h3 id="artemia-art-for-inclusion-and-accessibility---journey-to-the-discovery-of-the-villages-along-the-sagrantino-wine-route">ArteMIA-Art for Inclusion and Accessibility - Journey to the Discovery of the Villages along the Sagrantino Wine Route</h3>
+<p>The aim of the Project ArteMIA- Viaggio alla Scoperta dei Borghi lungo la Strada del Sagrantino is to create an Accessible Itinerary for and with people with cognitive disabilities, to discover the lands and villages that belong to the Sagrantino territory.  Participants will be accompanied to get to know and discover the most important and representative places of culture located in the municipalities of Montefalco, Bevagna, Giano dell&#39;Umbria and Gualdo Cattaneo, contributing in the first person to the promotion of one of the most beautiful and characteristic areas of the Region of Umbria.</p>
+<p>An Italian-only guide has been created and can be found at the following link:</p>
+<ul>
+<li><a href="../../../assets/pdf/it/ArteMIA_Sagrantino_easy-to-read.pdf">ArteMIA Sagrantino Guide in Easy to Read</a></li>
+</ul>
+<p>Partners: 
+<img src="../../../assets/media/graphics/partners/Logo-CLF4D-2020_1.png" alt="Logo ChrackLab">
+<img src="../../../assets/media/graphics/partners/LOGO%20ATLAS.png" alt="Logo Fondazione Atlas">
+<img src="../../../assets/media/graphics/partners/locomotiva.jpeg" alt="Logo Locomotiva">
+<img src="../../../assets/media/graphics/partners/logo_USL-01.png" alt="Logo UslUmbria2">
+<img src="../../../assets/media/graphics/partners/logo-ellelle.jpg" alt="Logo Ellelle">
+<img src="../../../assets/media/graphics/partners/cittaccessibili.png" alt="Logo Città accessibili">
+<img src="../../../assets/media/graphics/partners/rondine.png" alt="Logo Cooperativa La Rondine"></p>
+<p>Founded by:
+<img src="../../../assets/media/graphics/partners/Coesione%20UE%20ITA%20estesa_colori_v1.svg" alt="Loghi finanziatori progetto"></p>
+<p>The intervention was realised with the support of the ‘Funds for the support of projects in the field of cultural welfare year 2023’ ‘ERDF PR 2021-2027. Az. 1.3.4.- Support for tourism, tourism services, film, audiovisual, cultural and creative and social enterprises’.</p>
+<h3 id="artemia-art-for-inclusion-and-accessibility---guide-to-ciac-poles">ArteMIA-Art for Inclusion and Accessibility - Guide to CIAC Poles</h3>
+<p>The objective of the ArteMIA Project-Guide to the CIAC Poles is to create an Accessible Itinerary for and with people with cognitive disabilities, to discover the works housed within the CIAC and the Cosmic Magnet, permanently exhibited at the Former Church of the Holy Trinity in Annunziata. The proposal to create a Guide/Itinerary of the CIAC poles stems from the desire to open the museum spaces to the widest possible public and from the awareness that, too often, Contemporary Art is left aside because it is considered too complex or elitist.  The realisation of the Accessible Guide allows not only to bring new audiences to the museums, but also to create a product that can potentially be used by everyone to guide and inform them in their discovery of the CIAC.</p>
+<p>Two Italian-only guide have been created and can be found at the following link:</p>
+<ul>
+<li><a href="../../../assets/pdf/it/ArteMIA_CIAC_museo.pdf">Guida ArteMIA al CIAC in Easy to Read</a></li>
+<li><a href="../../../assets/pdf/it/ArteMIA_CIAC_calamita%20cosmica.pdf">Guida ArteMIA all&#39;ex Chiesa della Santissima Trinità</a></li>
+</ul>
+<p>Partners: 
+<img src="../../../assets/media/graphics/partners/Logo-CLF4D-2020_1.png" alt="Logo ChrackLab">
+<img src="../../../assets/media/graphics/partners/logo-ellelle.jpg" alt="Logo Ellelle">
+<img src="../../../assets/media/graphics/partners/locomotiva.jpeg" alt="Logo Locomotiva"></p>
+<p>Founded by:
+<img src="../../../assets/media/graphics/partners/logo-fondazione-cassa-di-risparmio-di-foligno.png" alt="Logo Fondazione cassa di risparmio di Foligno"></p>
+</article></section></main><!--footer.main-footer--><footer><!--.footer-content--><address><header><h2>CRHACK LAB FOLIGNO 4D OdV</h2></header><p>Tax ID: 91051320546 - VAT Number: 03730820549</p><a href="https://www.openstreetmap.org/search?query=via%20andrea%20vici%2C%208b%20foligno#map=18/42.97180/12.67957" target="_blank"> <span class="fa-solid fa-location-dot"> </span>via Andrea Vici, 8b -
+06039 Foligno (PG)</a><a href="mailto:clf4d@clf4d.eu"> <span class="fa-solid fa-envelope"> </span>clf4d@clf4d.eu</a><span class="fa-solid fa-phone"></span>+39 379 2899151 </address><!--section--><address><header><h2>Privacy & Social media</h2></header><a href="/privacy">Privacy policy</a><p id="disclaimer">We are bound to carry out dissemination campaigns on the following social media due to contractual obligations related to public funding. However, we strongly recommend you to avoid or limit the use of social media to protect your privacy and avoid potential health issues.</p><section id="social-media"><a href="https://www.facebook.com/crhacklabfoligno4d" target="_blank"><span class="fa-brands fa-facebook"> </span>Facebook</a><a href="https://www.instagram.com/crhacklab/" target="_blank"><span class="fa-brands fa-instagram"></span>Instagram</a></section></address><!--section--><address><header><h2>Creative Commons Attribution-ShareAlike 4.0 International</h2><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="license"><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA"></a><p>This license requires that reusers give credit to the creator. It allows reusers to distribute, remix, adapt, and build upon the material in any medium or format, even for commercial purposes. If others remix, adapt, or build upon the material, they must license the modified material under identical terms.</p></header></address></footer></body></html>

@@ -50,26 +50,26 @@ Metalsmith(__dirname)
                 sortBy: 'pubdate',
                 reverse: true,
             },
-            newsCollection: {
-                pattern: 'en/news/*.html',
-                sortBy: 'pubdate',
-                reverse: true,
-            },
-            notizieCollection: {
-                pattern: 'it/news/*.html',
-                sortBy: 'pubdate',
-                reverse: true,
-            },
-            events: {
-                pattern: 'en/events/*.html',
-                sortBy: 'pubdate',
-                reverse: true,
-            },
-            eventi: {
-                pattern: 'it/events/*.html',
-                sortBy: 'pubdate',
-                reverse: true,
-            },
+            // newsCollection: {
+            //     pattern: 'en/news/*.html',
+            //     sortBy: 'pubdate',
+            //     reverse: true,
+            // },
+            // notizieCollection: {
+            //     pattern: 'it/news/*.html',
+            //     sortBy: 'pubdate',
+            //     reverse: true,
+            // },
+            // events: {
+            //     pattern: 'en/events/*.html',
+            //     sortBy: 'pubdate',
+            //     reverse: true,
+            // },
+            // eventi: {
+            //     pattern: 'it/events/*.html',
+            //     sortBy: 'pubdate',
+            //     reverse: true,
+            // },
             projectsCollection: {
                 pattern: 'en/projects/*.html',
                 sortBy: 'pubdate',
@@ -80,43 +80,64 @@ Metalsmith(__dirname)
                 sortBy: 'pubdate',
                 reverse: true,
             },
-            servicesCollection: {
-                pattern: 'en/services/*.html',
+            // servicesCollection: {
+            //     pattern: 'en/services/*.html',
+            //     sortBy: 'pubdate',
+            //     reverse: true,
+            // },
+            // strumentiCollection: {
+            //     pattern: 'it/services/*.html',
+            //     sortBy: 'pubdate',
+            //     reverse: true,
+            // },
+            // volunteersCollection: {
+            //     pattern: 'en/volunteers/*.html',
+            //     sortBy: 'pubdate',
+            //     reverse: true,
+            // },
+            // volontariCollection: {
+            //     pattern: 'it/volunteers/*.html',
+            //     sortBy: 'pubdate',
+            //     reverse: true,
+            // },
+            aboutCollection: {
+                pattern: 'en/about/*.html',
                 sortBy: 'pubdate',
                 reverse: true,
             },
-            strumentiCollection: {
-                pattern: 'it/services/*.html',
+            aboutitCollection: {
+                pattern: 'it/about/*.html',
                 sortBy: 'pubdate',
                 reverse: true,
             },
-            volunteersCollection: {
-                pattern: 'en/volunteers/*.html',
+            labsCollection: {
+                pattern: 'en/labs/*.html',
                 sortBy: 'pubdate',
                 reverse: true,
             },
-            volontariCollection: {
-                pattern: 'it/volunteers/*.html',
+            laboratoriCollection: {
+                pattern: 'it/labs/*.html',
                 sortBy: 'pubdate',
                 reverse: true,
             },
+            
         })
     )
     // FILTER TO EVENT
-    .use((files, metalsmith, done) => {
-        const events = metalsmith.metadata().eventi;
+    // .use((files, metalsmith, done) => {
+    //     const events = metalsmith.metadata().eventi;
         
-        // Map through the event data and remove the next and previous references to avoid circular structures
-        const filteredEvents = events.map(event => {
-            const { next, previous, ...filteredEvent } = event; // Exclude circular properties
-            return filteredEvent;
-        });
+    //     // Map through the event data and remove the next and previous references to avoid circular structures
+    //     const filteredEvents = events.map(event => {
+    //         const { next, previous, ...filteredEvent } = event; // Exclude circular properties
+    //         return filteredEvent;
+    //     });
         
-        // Assign the filtered event data back to the metadata
-        metalsmith.metadata().filteredEvents = filteredEvents;
+    //     // Assign the filtered event data back to the metadata
+    //     metalsmith.metadata().filteredEvents = filteredEvents;
         
-        done();
-    })
+    //     done();
+    // })
     .use(permalinks())
     .use(exportPageTitles())
     .use(lunr({           
@@ -187,33 +208,33 @@ function addCombinedRef(files, metalsmith, done) {
 
 // Plugin per salvare pageTitle e URL
 function exportPageTitles() {
-  return (files, metalsmith, done) => {
-    const titles = {};
+    return (files, metalsmith, done) => {
+        const titles = {};
 
-    Object.keys(files).forEach((file) => {
-      const data = files[file];
-      const title = data.title || data.pageTitle || data.yamlProjectTitle;
+        Object.keys(files).forEach((file) => {
+        const data = files[file];
+        const title = data.title || data.pageTitle || data.yamlProjectTitle;
 
-      if (title) {
-        const url = data.url || '/' + file.replace(/\\/g, '/').replace(/^src\//, '').replace(/\.md$/, '.html');
-        titles[url] = title;
-        console.log(`✔️ Exporting: ${url} → "${title}"`);
-      } else {
-        console.warn(`⚠️ Skipped: ${file} has no title`);
-      }
-    });
+        if (title) {
+            const url = data.url || '/' + file.replace(/\\/g, '/').replace(/^src\//, '').replace(/\.md$/, '.html');
+            titles[url] = title;
+            console.log(`✔️ Exporting: ${url} → "${title}"`);
+        } else {
+            console.warn(`⚠️ Skipped: ${file} has no title`);
+        }
+        });
 
-    const outputPath = path.join(__dirname, 'build/assets/json/page-titles.json');
-    try {
-        fs.mkdirSync(path.dirname(outputPath), { recursive: true });
-        fs.writeFileSync(outputPath, JSON.stringify(titles, null, 2), 'utf-8');
+        const outputPath = path.join(__dirname, 'build/assets/json/page-titles.json');
+        try {
+            fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+            fs.writeFileSync(outputPath, JSON.stringify(titles, null, 2), 'utf-8');
+            
+        } catch (err) {
+            
+        }
         
-    } catch (err) {
-        
-    }
-    
-    done();
-  };
+        done();
+    };
 }
 
 

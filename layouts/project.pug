@@ -9,8 +9,7 @@ block hero
       cite
         | — #{yamlFundings + ` (` + yamlStartYear + `/` + yamlEndYear + `)`}, 
         a(href=`https://` + yamlWebsite) #{`https://` + yamlWebsite}
-      p!= yamlProjectValue
-
+      p.project-value!= yamlProjectValue
 block content
 
 
@@ -25,7 +24,7 @@ block content
           li
             a(href=`#attività-principali`) Attività principali
           li
-            a(href=`prodotti-rimarchevoli`) Prodotti rimarchevoli
+            a(href=`#prodotti-rimarchevoli`) Prodotti rimarchevoli
           li
             a(href=`#dati-del-progetto`) Dati del progetto
     article

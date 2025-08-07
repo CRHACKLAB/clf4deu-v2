@@ -1,0 +1,115 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="description" content="CrHack Lab F4D's blog"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CRHACK LAB FOLIGNO 4D - Aurora - Latest News</title><link rel="shortcut icon" href="/assets/media/images/icons/favicon-cl.svg" type="image/x-icon"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer"><link rel="stylesheet" href="/assets/css/main.css" media="screen"><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/0.5.12/lunr.min.js"></script><script src="/assets/js/main.js"></script></head><body><header class="main-header"><nav class="top-nav"><a href="/en/"><img id="nav-logo" src="/assets/media/images/logos/clf4d_logo_2020_lungo_exp.png" alt="Discover CHRACK LAB Foligno 4D"></a><div class="nav-links"><a class="aquaunderline" href="/en/about">About</a><a class="greenunderline" href="/en/team">Team</a><a class="orangeunderline" href="/en/blog">Blog</a><a class="fuchsiaunderline" href="/en/labs">Labs</a><button id="cta-button">Jump in!</button><a href="/it/" role="button"><img id="nav-lang" role="button" src="/assets/media/images/icons/lang-it.png" alt="Go to Italian Language" lang="it-IT"></a><div class="search-container"><input type="search" id="search-input" placeholder="Search..." aria-label="Search"><ul id="search-results"></ul><button class="search-button" aria-label="Toggle search"><span class="fa-solid fa-magnifying-glass"></span></button><script>document.addEventListener('DOMContentLoaded', function() {
+  const searchButton = document.querySelector('.search-button');
+  const searchInput = document.querySelector('#search-input');
+  let lunrIndex = null;
+  let store = {};
+  Promise.all([
+    fetch('/assets/json/search-index.json').then(res => res.json()),
+    fetch('/assets/json/page-titles.json').then(res => res.json())
+  ])
+    //- .then(response => {
+    //-   if (!response.ok) throw new Error('Network response was not ok');
+    //-   return response.json();
+    //- })
+    .then(([searchData, pageTitles]) => {
+
+      lunrIndex = lunr.Index.load(searchData.index || searchData);
+      store = searchData.store || {};
+
+      function performSearch(query) {
+        const results = lunrIndex.search(query);
+        displayResults(results);
+      }
+
+      function displayResults(results) {
+        const searchResults = document.getElementById('search-results');
+        searchResults.innerHTML = '';
+
+        if (results.length === 0) {
+          searchResults.style.display = 'none';
+          return;
+        }
+
+        searchResults.style.display = 'block';
+
+        results.forEach(result => {
+          const a = document.createElement('a');
+          a.href = result.ref;
+          a.textContent = pageTitles[result.ref] || store[result.ref].title || 'Untitled';
+          searchResults.appendChild(a);
+          searchResults.appendChild(document.createElement('br'));
+        });
+      }
+
+      searchInput.addEventListener('input', function() {
+        const query = this.value;
+        performSearch(query);
+      });
+    })
+    .catch(error => console.error('Error loading search index global:', error));
+
+  searchButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    searchInput.classList.toggle('active');
+    if (searchInput.classList.contains('active')) {
+      searchInput.focus();
+    }
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.search-container')) {
+      searchInput.classList.remove('active');
+    }
+  });
+
+  searchInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      searchInput.classList.remove('active');
+    }
+  });
+});
+
+function addCombinedRef(files, metalsmith, done) {
+  Object.keys(files).forEach(function (file) {
+    const data = files[file];
+    let title = data.pageTitle || data.yamlProjectTitle;
+    if (!title && data.contents) {
+      const match = data.contents.toString().match(/<h1[^>]*>(.*?)<\/h1>/i);
+      if (match && match[1]) {
+        title = match[1].trim();
+      }
+    }
+    if (!title) title = 'Untitled';
+    data.title = title;
+    const site = 'CLF4D';
+    const path = file.replace(/\\/g, '/').replace(/^src\//, '').replace(/\.md$/, '.html');
+    data.site = site;
+    data.url = '/' + path;
+    data.combinedRef = `${site} | ${title}`;
+    if (file.endsWith('.html')) {
+      console.log(file, '->', data.title);
+    }
+    console.log(data.combinedRef);
+  });
+  done();
+}</script></div></div></nav></header><main><article class="blog-post"><header class="post-header"><h1>Aurora - Latest News</h1><time datetime="2025-05-29T00:00:00.000Z">29/05/2025</time></header><div class="post-content"><p><strong>Latest News from the AURORA Project</strong>, the initiative that combines innovation, technology, and education for augmented reality (AR). AURORA&#39;s goal is to bridge the gap between educational offerings and local market needs by providing Open Educational Resources (OER) that integrate AR technologies into vocational training and the promotion of Cultural Heritage.</p>
+<p>The work done so far makes us increasingly aware that AURORA is not just a project: it is a vision of the future where technology, education, and culture work hand in hand to make our regions more attractive and innovative.</p>
+<p>Click <a href="https://clf4d.eu/en/projects/aurora/">here</a> to see in detail what has been accomplished so far.</p>
+<h3 id="what-has-been-accomplished-so-far"><strong>What has been accomplished so far?</strong></h3>
+<ul>
+<li><strong>Needs Assessment Report</strong>: A comprehensive survey that analyzed the gap between the demands of local businesses and vocational training programs. The results helped identify areas where current training programs can be improved to meet local market needs. This valuable information will guide future improvements in training programs, ensuring that students are better prepared to contribute to regional development.  </li>
+<li><strong>&quot;Creating Augmented Reality Installations&quot; Manual</strong>: This manual not only explains the technology but also highlights successful AR applications in Europe. It illustrates how students and teachers in Italy, Spain, and the Netherlands are using digital technologies to bring history to life, promote local tourism, and innovate cultural marketing.  </li>
+<li><strong>Students&#39; AR Projects</strong>: Students from CEBANC (Spain) and Omnicomprensivo Giano dell’Umbria (Italy) showcased their creativity and technical skills by developing AR projects inspired by local heritage. These projects illustrate how young talents can leverage AR to revitalize historical narratives and enhance regional attractiveness.  </li>
+<li><strong>Participation in the Crea CULTURA Festival in Foligno, March 2023</strong>: Students from our participating schools—CEBANC (Spain) and Omnicomprensivo Giano dell’Umbria (Italy)—gathered at the festival, an international celebration of creativity and culture. The festival brought together dozens of schools from various countries, with students participating in interactive workshops throughout Foligno’s historic center. They had the opportunity to create their own works, blending cultural experiences with digital innovation. Three days of full learning, landscapes, and modern technology.</li>
+</ul>
+<h3 id="supporting-the-future"><strong>SUPPORTING THE FUTURE</strong></h3>
+<p>The AURORA project has laid the groundwork for long-term success by providing easily accessible resources to students, educators, and professionals. All project materials, including the manuals, needs assessment report, and students&#39; projects, are available on our <a href="https://aurora-ka2.eu/?fbclid=IwY2xjawF_CgpleHRuA2FlbQIxMAABHZXEsZ5e8guNFiDHJunZefXIv-uAs5jrmVVuFgpklErcDY62JrWJ3EyFiA_aem_clu42uHeJa1rsCaa_udKVw">website</a>. We invite you to explore these resources and see how AR can transform education and cultural heritage. AURORA is not just a project: it is a vision of the future where technology, education, and culture work hand in hand to make our regions more attractive and innovative.</p>
+<h3 id="project-partners"><strong>PROJECT PARTNERS</strong></h3>
+<ul>
+<li>Omnicomprensivo Institute of Giano dell’Umbria-Bastardo, Italy (Coordinator)  </li>
+<li>Centro de formación de administración y hostelería SL, Spain  </li>
+<li>Crhack Lab Foligno 4D ODV, Italy  </li>
+<li>Pressure Line, Netherlands</li>
+</ul>
+</div></article></main><!--footer.main-footer--><footer><!--.footer-content--><address><header><h2>CRHACK LAB FOLIGNO 4D OdV</h2></header><p>Tax ID: 91051320546 - VAT Number: 03730820549</p><a href="https://www.openstreetmap.org/search?query=via%20andrea%20vici%2C%208b%20foligno#map=18/42.97180/12.67957" target="_blank"> <span class="fa-solid fa-location-dot"> </span>via Andrea Vici, 8b -
+06039 Foligno (PG)</a><a href="mailto:clf4d@clf4d.eu"> <span class="fa-solid fa-envelope"> </span>clf4d@clf4d.eu</a><span class="fa-solid fa-phone"></span>+39 379 2899151 </address><!--section--><address><header><h2>Privacy & Social media</h2></header><a href="/privacy">Privacy policy</a><p id="disclaimer">We are bound to carry out dissemination campaigns on the following social media due to contractual obligations related to public funding. However, we strongly recommend you to avoid or limit the use of social media to protect your privacy and avoid potential health issues.</p><section id="social-media"><a href="https://www.facebook.com/crhacklabfoligno4d" target="_blank"><span class="fa-brands fa-facebook"> </span>Facebook</a><a href="https://www.instagram.com/crhacklab/" target="_blank"><span class="fa-brands fa-instagram"></span>Instagram</a></section></address><!--section--><address><header><h2>Creative Commons Attribution-ShareAlike 4.0 International</h2><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="license"><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA"></a><p>This license requires that reusers give credit to the creator. It allows reusers to distribute, remix, adapt, and build upon the material in any medium or format, even for commercial purposes. If others remix, adapt, or build upon the material, they must license the modified material under identical terms.</p></header></address></footer></body></html>

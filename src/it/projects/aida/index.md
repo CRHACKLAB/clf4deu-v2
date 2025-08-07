@@ -12,13 +12,9 @@ yamlFundings: Erasmus+ KA2 Program
 yamlStartYear: 2020
 yamlEndYear: 2022
 yamlWebsite: artzheimer.eu
-yamlProjectValue: Qui va inserito un testo di al massimo qualche centinaio di caratteri che faccia capire quale sia il valore del progetto per il CLF4D e/o per il visitatore che sta leggendo la pagina. Probabilmente dovrebbe essere lo stesso testo che appare nella riga del progetto nella pagina di indice dei progetti. Questi sono circa 350 caratteri per farsi un'idea.
+yamlProjectValue: "Il progetto Erasmus + nasce con l'intento di creare un servizio per le persone con malattia Alzheimer e per i loro familiari e caregiver, che spesso si trovano in una situazione di solitudine e isolamento. L'iniziativa fa parte del metodo integrato di Welfare Culturale, che mette le nuove tecnologie al servizio di percorsi di cura per le persone affette da Alzheimer attraverso l'arte e la performance. Alla base di questa metodologia, c’è l’unione di tre settori: sanitario, culturale e digitale."
 lunr: true
 ---
-
-#### Cos'è
-
-Il progetto **Erasmus +** nasce con l'intento di creare un servizio per le persone con malattia **Alzheimer** e per i loro familiari e **caregiver**, che spesso si trovano in una situazione di solitudine e isolamento. L'iniziativa fa parte del metodo integrato di **Welfare Culturale**, che mette le **nuove tecnologie** al servizio di **percorsi di cura** per le persone affette da Alzheimer attraverso l'arte e la performance. Alla base di questa metodologia, c’è l’unione di tre settori: sanitario, culturale e digitale. 
 
 #### Obiettivi
 

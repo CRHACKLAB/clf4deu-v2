@@ -14,7 +14,7 @@ header.main-header
         img(id="nav-lang" role="button" src="/assets/media/images/icons/lang-" + (lang=="en" ? "it" : "en")  + ".png" alt=labels.layout.menu.langIconAlt lang= (lang=="en" ? "it-IT" : "en-GB"))
       .search-container
         input(type="search" id="search-input" placeholder=lang=="en" ? "Search..." : "Cerca..." aria-label="Search")
-        ul#searchResults
+        ul#search-results
         button.search-button(aria-label="Toggle search")
           span.fa-solid.fa-magnifying-glass
         script.
@@ -23,7 +23,7 @@ header.main-header
             const searchInput = document.querySelector('#search-input');
             let lunrIndex = null;
             let store = {};
-           Promise.all([
+            Promise.all([
               fetch('/assets/json/search-index.json').then(res => res.json()),
               fetch('/assets/json/page-titles.json').then(res => res.json())
             ])
@@ -42,7 +42,7 @@ header.main-header
                 }
 
                 function displayResults(results) {
-                  const searchResults = document.getElementById('searchResults');
+                  const searchResults = document.getElementById('search-results');
                   searchResults.innerHTML = '';
 
                   if (results.length === 0) {

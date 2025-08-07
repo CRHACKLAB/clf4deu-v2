@@ -1,0 +1,118 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="description" content="Scheda del progetto Eco Champions"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CRHACK LAB FOLIGNO 4D - Eco Champions</title><link rel="shortcut icon" href="/assets/media/images/icons/favicon-cl.svg" type="image/x-icon"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer"><link rel="stylesheet" href="/assets/css/main.css" media="screen"><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/0.5.12/lunr.min.js"></script><script src="/assets/js/main.js"></script></head><body><header class="main-header"><nav class="top-nav"><a href="/en/"><img id="nav-logo" src="/assets/media/images/logos/clf4d_logo_2020_lungo_exp.png" alt="Discover CHRACK LAB Foligno 4D"></a><div class="nav-links"><a class="aquaunderline" href="/en/about">About</a><a class="greenunderline" href="/en/team">Team</a><a class="orangeunderline" href="/en/blog">Blog</a><a class="fuchsiaunderline" href="/en/labs">Labs</a><button id="cta-button">Jump in!</button><a href="/it/" role="button"><img id="nav-lang" role="button" src="/assets/media/images/icons/lang-it.png" alt="Go to Italian Language" lang="it-IT"></a><div class="search-container"><input type="search" id="search-input" placeholder="Search..." aria-label="Search"><ul id="search-results"></ul><button class="search-button" aria-label="Toggle search"><span class="fa-solid fa-magnifying-glass"></span></button><script>document.addEventListener('DOMContentLoaded', function() {
+  const searchButton = document.querySelector('.search-button');
+  const searchInput = document.querySelector('#search-input');
+  let lunrIndex = null;
+  let store = {};
+  Promise.all([
+    fetch('/assets/json/search-index.json').then(res => res.json()),
+    fetch('/assets/json/page-titles.json').then(res => res.json())
+  ])
+    //- .then(response => {
+    //-   if (!response.ok) throw new Error('Network response was not ok');
+    //-   return response.json();
+    //- })
+    .then(([searchData, pageTitles]) => {
+
+      lunrIndex = lunr.Index.load(searchData.index || searchData);
+      store = searchData.store || {};
+
+      function performSearch(query) {
+        const results = lunrIndex.search(query);
+        displayResults(results);
+      }
+
+      function displayResults(results) {
+        const searchResults = document.getElementById('search-results');
+        searchResults.innerHTML = '';
+
+        if (results.length === 0) {
+          searchResults.style.display = 'none';
+          return;
+        }
+
+        searchResults.style.display = 'block';
+
+        results.forEach(result => {
+          const a = document.createElement('a');
+          a.href = result.ref;
+          a.textContent = pageTitles[result.ref] || store[result.ref].title || 'Untitled';
+          searchResults.appendChild(a);
+          searchResults.appendChild(document.createElement('br'));
+        });
+      }
+
+      searchInput.addEventListener('input', function() {
+        const query = this.value;
+        performSearch(query);
+      });
+    })
+    .catch(error => console.error('Error loading search index global:', error));
+
+  searchButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    searchInput.classList.toggle('active');
+    if (searchInput.classList.contains('active')) {
+      searchInput.focus();
+    }
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.search-container')) {
+      searchInput.classList.remove('active');
+    }
+  });
+
+  searchInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      searchInput.classList.remove('active');
+    }
+  });
+});
+
+function addCombinedRef(files, metalsmith, done) {
+  Object.keys(files).forEach(function (file) {
+    const data = files[file];
+    let title = data.pageTitle || data.yamlProjectTitle;
+    if (!title && data.contents) {
+      const match = data.contents.toString().match(/<h1[^>]*>(.*?)<\/h1>/i);
+      if (match && match[1]) {
+        title = match[1].trim();
+      }
+    }
+    if (!title) title = 'Untitled';
+    data.title = title;
+    const site = 'CLF4D';
+    const path = file.replace(/\\/g, '/').replace(/^src\//, '').replace(/\.md$/, '.html');
+    data.site = site;
+    data.url = '/' + path;
+    data.combinedRef = `${site} | ${title}`;
+    if (file.endsWith('.html')) {
+      console.log(file, '->', data.title);
+    }
+    console.log(data.combinedRef);
+  });
+  done();
+}</script></div></div></nav></header><main><section class="hero" id="cardhero"><img src="eco-champions.svg" alt="Logo del progetto Eco-Champions"><header><h1><q>Eco Champions</q></h1><cite>— Erasmus+ KA2 Program (2020/2022), <a href="https://dream-project.eu">https://dream-project.eu</a></cite><p class="project-value">The core objective of *Eco-Champions* is to mobilise and actively involve citizens and local authorities in a constructive dialogue and practical activities focused on sustainable waste management.</p></header></section><section id="projectdescription"><aside><nav><ul><li><a href="#partenariato">Partenariato</a></li><li><a href="#obiettivi">Obiettivi</a></li><li><a href="#attività-principali">Attività principali</a></li><li><a href="#prodotti-rimarchevoli">Prodotti rimarchevoli</a></li><li><a href="#dati-del-progetto">Dati del progetto</a></li></ul></nav></aside><article><h3 id="the-eco-champions-project-a-step-forward-towards-environmental-sustainability-in-europe"><strong>The Eco-Champions Project: A Step Forward Towards Environmental Sustainability in Europe</strong></h3>
+<p>In the context of the increasing environmental and climate pressures that define our time, the need for concrete and collaborative actions to address global challenges has become ever more evident.</p>
+<p>In response to this imperative, the <em>Eco-Champions</em> project has been launched within the framework of the CERV Programme. Co-financed by the European Union and set to run for 24 months, this ambitious initiative aims to promote sustainable waste management within the European Union by actively engaging citizens and communities.</p>
+<p>The core objective of <em>Eco-Champions</em> is to mobilise and actively involve citizens and local authorities in a constructive dialogue and practical activities focused on sustainable waste management. The project consortium consists of five partners, coordinated by <a href="https://connectbrussels.eu/">Connect Brussels</a> (Belgium), including <a href="https://www.bondbeterleefmilieu.be/">Bond Beter Leefmilieu</a> (Belgium), <a href="http://labienpaga.es/?fbclid=IwY2xjawIJuIdleHRuA2FlbQIxMAABHY8fmZwG07OshK8tLRtzaghATKDhx1r8uCmd6g5DwD9i_wpwex738-ru0g_aem_u-1nHrv_U9OrCpztN2gSLw">la Bien Pagá</a> (Spain), <a href="https://clf4d.eu/">Crhack Lab Foligno 4 D</a> (Italy), <a href="https://co2gether.gr/en/">Co2gether</a> (Greece), and <a href="https://thebalkanforum.org/">Balkan Forum</a> (Kosovo). Together, they will work to raise awareness and educate citizens and authorities through workshops, training sessions, and hands-on activities.</p>
+<p>One of the distinctive features of <em>Eco-Champions</em> is its inclusive and holistic methodology, which will engage citizens of various ages and backgrounds to foster an intergenerational dialogue on crucial environmental issues.</p>
+<p>Through this intergenerational approach, the project seeks to create a shared sense of community and responsibility, transcending age barriers to promote a greener and more sustainable future for Europe and beyond.</p>
+<p>A key component of this initiative will be the <em>Eco-Festivals</em>, organised in five different cities across the five partner countries. These events will encourage participants not only to compete but also to collaborate in developing innovative and practical solutions for waste management. An inclusive voting process will recognise and reward the most engaged <em>eco-citizens</em>, celebrating their contributions to local and regional environmental well-being.</p>
+<p>In alignment with the EU Green Deal’s agenda and priorities, <em>Eco-Champions</em> aims to identify the specific needs for sustainable waste management in various national contexts, employing a robust methodology that ensures tangible and lasting results. The project aspires not only to foster medium- and long-term behavioural change but also to strengthen the democratic and civic fabric of the European Union through active participation.</p>
+<p>Ultimately, <em>Eco-Champions</em> strives to contribute to the global fight against climate change and the pursuit of environmental sustainability.</p>
+<p>Partners: 
+<img src="../../../assets/media/graphics/partners/eco-champions/Connect%20Brussels.jpg" alt="Logo Connect Brussels">
+<img src="../../../assets/media/graphics/partners/eco-champions/LOGO-BBL_baseline_RGB%202020.jpg" alt="Logo Bond Beter Leefmilieu">
+<img src="../../../assets/media/graphics/partners/eco-champions/LBP_logo_removebg.png" alt="Logo la Bien Pagá">
+<img src="../../../assets/media/graphics/partners/Logo-CLF4D-2020_1.png" alt="Logo ChrackLab">
+<img src="../../../assets/media/graphics/partners/eco-champions/CO2GETHER_logo.jpg" alt="Logo Co2gether">
+<img src="../../../assets/media/graphics/partners/eco-champions/The%20Balkan%20Forum%20-%20Logo.svg" alt="Logo Balkan Forum"></p>
+<p><em>Funded by the European Union. Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the Youth Affairs Agency. Neither the European Union nor the granting authority can be held responsible for them.</em><br><img src="../../../assets/media/graphics/logos/eu-logo.png" alt="European Union logo"></p>
+<h3 id="needs-analysis-for-sustainable-waste-management"><strong>Needs Analysis for Sustainable Waste Management</strong></h3>
+<p>The <em>Eco-Champions</em> project has entered a crucial phase involving the collection of essential data to assess the current state of waste management in the participating countries. Project partners are developing specific questionnaires to gather both quantitative data—related to waste production, types, and disposal methods—and qualitative insights through semi-structured surveys aimed at understanding community perceptions, cultural concerns, and suggestions.</p>
+<p>The analysis will focus on several key aspects, including the regulatory and policy framework, local specificities, the needs of disabled and elderly individuals, as well as the evaluation of environmental impact and existing infrastructure.</p>
+<p>Subsequently, two online events will be organised to establish a structured framework that will systematically and inclusively guide the assessment process, taking into account diverse demographic needs.</p>
+<p>This phase represents a crucial step in developing targeted and sustainable strategies, forming the project’s innovative methodology and actively engaging communities in the transition towards more efficient and environmentally friendly waste management practices.</p>
+</article></section></main><!--footer.main-footer--><footer><!--.footer-content--><address><header><h2>CRHACK LAB FOLIGNO 4D OdV</h2></header><p>Tax ID: 91051320546 - VAT Number: 03730820549</p><a href="https://www.openstreetmap.org/search?query=via%20andrea%20vici%2C%208b%20foligno#map=18/42.97180/12.67957" target="_blank"> <span class="fa-solid fa-location-dot"> </span>via Andrea Vici, 8b -
+06039 Foligno (PG)</a><a href="mailto:clf4d@clf4d.eu"> <span class="fa-solid fa-envelope"> </span>clf4d@clf4d.eu</a><span class="fa-solid fa-phone"></span>+39 379 2899151 </address><!--section--><address><header><h2>Privacy & Social media</h2></header><a href="/privacy">Privacy policy</a><p id="disclaimer">We are bound to carry out dissemination campaigns on the following social media due to contractual obligations related to public funding. However, we strongly recommend you to avoid or limit the use of social media to protect your privacy and avoid potential health issues.</p><section id="social-media"><a href="https://www.facebook.com/crhacklabfoligno4d" target="_blank"><span class="fa-brands fa-facebook"> </span>Facebook</a><a href="https://www.instagram.com/crhacklab/" target="_blank"><span class="fa-brands fa-instagram"></span>Instagram</a></section></address><!--section--><address><header><h2>Creative Commons Attribution-ShareAlike 4.0 International</h2><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="license"><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA"></a><p>This license requires that reusers give credit to the creator. It allows reusers to distribute, remix, adapt, and build upon the material in any medium or format, even for commercial purposes. If others remix, adapt, or build upon the material, they must license the modified material under identical terms.</p></header></address></footer></body></html>

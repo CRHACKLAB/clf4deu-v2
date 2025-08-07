@@ -40,6 +40,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Skranji-Regular';
+  src: url('../fonts/Skranji-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 
 /* Reset */
 * {
@@ -202,7 +210,7 @@ body {
     color: var(  --accent-color);
   }
 
-  & #searchResults {
+  & #search-results {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -212,7 +220,7 @@ body {
     top: 100%;
     left: 0;
     /* border: 2px solid var(--butterflass-fuchsia-color); */
-    background-color: var(--text-inverse-color);
+    background-color: var(--darker-background);
     overflow-y: auto;
     z-index: 4;
     padding: 0.4em 0.1em 0 0.1em;
@@ -259,7 +267,7 @@ main {
       & h1 {
         font-family: 'Barriecito';
         font-size: 2.9rem; 
-        text-shadow: 0.2rem 0.2rem 1rem var(--shadow-color);
+        /* text-shadow: 0.1rem 0.1rem 0.5rem var(--shadow-color); */
       }
 
       & cite {
@@ -383,21 +391,31 @@ main {
 
         }
 
-        & header:has(span:hover) {
-          & h3 {
-            /*background-color: var(--darker-background);
-            color: var(--text-color);*/
+        /* & header:has(span:hover) */
 
-            & p {
-              display: block;
-              height: auto;
-              color: var(--text-color);
-              background-color: var(--darker-background);
-              text-align: justify;
-            }
+        & header:hover {
+          /* & h3 {
+            background-color: var(--darker-background);
+            color: var(--text-color);
+          } */
 
-
+          & span {
+            background-color: var(--darker-background);
           }
+
+          & .fa-solid {
+            display: none;
+          }
+
+          & p {
+            display: block;
+            height: auto;
+            color: var(--text-color);
+            background-color: var(--darker-background);
+            text-align: justify;
+          }
+
+
 
         }
 

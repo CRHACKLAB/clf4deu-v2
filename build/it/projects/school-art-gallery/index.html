@@ -1,0 +1,107 @@
+<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><meta name="description" content="Scheda del progetto School Art Gallery"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CRHACK LAB FOLIGNO 4D - School Art Gallery</title><link rel="shortcut icon" href="/assets/media/images/icons/favicon-cl.svg" type="image/x-icon"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer"><link rel="stylesheet" href="/assets/css/main.css" media="screen"><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/0.5.12/lunr.min.js"></script><script src="/assets/js/main.js"></script></head><body><header class="main-header"><nav class="top-nav"><a href="/it/"><img id="nav-logo" src="/assets/media/images/logos/clf4d_logo_2020_lungo_exp.png" alt="Scopri il CHRACK LAB Foligno 4D"></a><div class="nav-links"><a class="aquaunderline" href="/it/about">Scoprici</a><a class="greenunderline" href="/it/team">Team</a><a class="orangeunderline" href="/it/blog">Blog</a><a class="fuchsiaunderline" href="/it/labs">Labs</a><button id="cta-button">Salta a bordo!</button><a href="/en/" role="button"><img id="nav-lang" role="button" src="/assets/media/images/icons/lang-en.png" alt="Vai all'Inglese" lang="en-GB"></a><div class="search-container"><input type="search" id="search-input" placeholder="Cerca..." aria-label="Search"><ul id="search-results"></ul><button class="search-button" aria-label="Toggle search"><span class="fa-solid fa-magnifying-glass"></span></button><script>document.addEventListener('DOMContentLoaded', function() {
+  const searchButton = document.querySelector('.search-button');
+  const searchInput = document.querySelector('#search-input');
+  let lunrIndex = null;
+  let store = {};
+  Promise.all([
+    fetch('/assets/json/search-index.json').then(res => res.json()),
+    fetch('/assets/json/page-titles.json').then(res => res.json())
+  ])
+    //- .then(response => {
+    //-   if (!response.ok) throw new Error('Network response was not ok');
+    //-   return response.json();
+    //- })
+    .then(([searchData, pageTitles]) => {
+
+      lunrIndex = lunr.Index.load(searchData.index || searchData);
+      store = searchData.store || {};
+
+      function performSearch(query) {
+        const results = lunrIndex.search(query);
+        displayResults(results);
+      }
+
+      function displayResults(results) {
+        const searchResults = document.getElementById('search-results');
+        searchResults.innerHTML = '';
+
+        if (results.length === 0) {
+          searchResults.style.display = 'none';
+          return;
+        }
+
+        searchResults.style.display = 'block';
+
+        results.forEach(result => {
+          const a = document.createElement('a');
+          a.href = result.ref;
+          a.textContent = pageTitles[result.ref] || store[result.ref].title || 'Untitled';
+          searchResults.appendChild(a);
+          searchResults.appendChild(document.createElement('br'));
+        });
+      }
+
+      searchInput.addEventListener('input', function() {
+        const query = this.value;
+        performSearch(query);
+      });
+    })
+    .catch(error => console.error('Error loading search index global:', error));
+
+  searchButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    searchInput.classList.toggle('active');
+    if (searchInput.classList.contains('active')) {
+      searchInput.focus();
+    }
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.search-container')) {
+      searchInput.classList.remove('active');
+    }
+  });
+
+  searchInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      searchInput.classList.remove('active');
+    }
+  });
+});
+
+function addCombinedRef(files, metalsmith, done) {
+  Object.keys(files).forEach(function (file) {
+    const data = files[file];
+    let title = data.pageTitle || data.yamlProjectTitle;
+    if (!title && data.contents) {
+      const match = data.contents.toString().match(/<h1[^>]*>(.*?)<\/h1>/i);
+      if (match && match[1]) {
+        title = match[1].trim();
+      }
+    }
+    if (!title) title = 'Untitled';
+    data.title = title;
+    const site = 'CLF4D';
+    const path = file.replace(/\\/g, '/').replace(/^src\//, '').replace(/\.md$/, '.html');
+    data.site = site;
+    data.url = '/' + path;
+    data.combinedRef = `${site} | ${title}`;
+    if (file.endsWith('.html')) {
+      console.log(file, '->', data.title);
+    }
+    console.log(data.combinedRef);
+  });
+  done();
+}</script></div></div></nav></header><main><section class="hero" id="cardhero"><img src="sag.png" alt="Logo del progetto School Art Gallery"><header><h1><q>School Art Gallery</q></h1><cite>— Erasmus+ KA2 Program (2020/2022), <a href="https://dream-project.eu">https://dream-project.eu</a></cite><p class="project-value">Il programma Erasmus+ KA220 VET, riunisce partner da tutta Europa per migliorare l'educazione artistica tramite l'uso della Realtà Aumentata (AR), potenziando l'apprendimento e i risultati di insegnanti e studenti tramite il divertimento.</p></header></section><section id="projectdescription"><aside><nav><ul><li><a href="#partenariato">Partenariato</a></li><li><a href="#obiettivi">Obiettivi</a></li><li><a href="#attività-principali">Attività principali</a></li><li><a href="#prodotti-rimarchevoli">Prodotti rimarchevoli</a></li><li><a href="#dati-del-progetto">Dati del progetto</a></li></ul></nav></aside><article><h4 id="obiettivi">Obiettivi</h4>
+<ul>
+<li>Facilitare la transizione digitale nelle scuole.</li>
+<li>Allineare i programmi e le competenze scolastiche alle priorità dell’UE.</li>
+<li>Fornire agli educatori competenze digitali chiave.</li>
+<li>Stabilire collegamenti tra la comunità di apprendimento dell’UE.</li>
+<li>Testare l&#39;attuazione pratica della metodologia e degli strumenti digitali attraverso la creazione di gallerie d&#39;arte scolastiche. </li>
+<li>Rafforzare l&#39;importanza delle discipline artistiche attraverso l&#39;applicazione dell’AR e migliorare i risultati degli studenti in questo campo.</li>
+</ul>
+<h4 id="stato">Stato</h4>
+<p><strong>In corso</strong></p>
+</article></section></main><!--footer.main-footer--><footer><!--.footer-content--><address><header><h2>CRHACK LAB FOLIGNO 4D OdV</h2></header><p>Codice Fiscale: 91051320546 - Partita IVA: 03730820549</p><a href="https://www.openstreetmap.org/search?query=via%20andrea%20vici%2C%208b%20foligno#map=18/42.97180/12.67957" target="_blank"> <span class="fa-solid fa-location-dot"> </span>via Andrea Vici, 8b -
+06039 Foligno (PG)</a><a href="mailto:clf4d@clf4d.eu"> <span class="fa-solid fa-envelope"> </span>clf4d@clf4d.eu</a><span class="fa-solid fa-phone"></span>+39 379 2899151 </address><!--section--><address><header><h2>Privacy & Social media</h2></header><a href="/privacy">Informativa privacy</a><p id="disclaimer">Siamo vincolati ad attuare campagne di disseminazione sui seguenti social media da obblighi contrattuali legati ai finanziamenti pubblici ricevuti. Tuttavia, vi invitiamo ad evitare o limitare l'uso dei social media per proteggere la vostra privacy ed evitare potenziali rischi per la salute.</p><section id="social-media"><a href="https://www.facebook.com/crhacklabfoligno4d" target="_blank"><span class="fa-brands fa-facebook"> </span>Facebook</a><a href="https://www.instagram.com/crhacklab/" target="_blank"><span class="fa-brands fa-instagram"></span>Instagram</a></section></address><!--section--><address><header><h2>Creative Commons Attribution-ShareAlike 4.0 International</h2><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="license"><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA"></a><p>This license requires that reusers give credit to the creator. It allows reusers to distribute, remix, adapt, and build upon the material in any medium or format, even for commercial purposes. If others remix, adapt, or build upon the material, they must license the modified material under identical terms.</p></header></address></footer></body></html>

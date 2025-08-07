@@ -1,0 +1,126 @@
+<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><meta name="description" content="Scheda del progetto YouThink"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CRHACK LAB FOLIGNO 4D - YouThink</title><link rel="shortcut icon" href="/assets/media/images/icons/favicon-cl.svg" type="image/x-icon"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer"><link rel="stylesheet" href="/assets/css/main.css" media="screen"><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/0.5.12/lunr.min.js"></script><script src="/assets/js/main.js"></script></head><body><header class="main-header"><nav class="top-nav"><a href="/it/"><img id="nav-logo" src="/assets/media/images/logos/clf4d_logo_2020_lungo_exp.png" alt="Scopri il CHRACK LAB Foligno 4D"></a><div class="nav-links"><a class="aquaunderline" href="/it/about">Scoprici</a><a class="greenunderline" href="/it/team">Team</a><a class="orangeunderline" href="/it/blog">Blog</a><a class="fuchsiaunderline" href="/it/labs">Labs</a><button id="cta-button">Salta a bordo!</button><a href="/en/" role="button"><img id="nav-lang" role="button" src="/assets/media/images/icons/lang-en.png" alt="Vai all'Inglese" lang="en-GB"></a><div class="search-container"><input type="search" id="search-input" placeholder="Cerca..." aria-label="Search"><ul id="search-results"></ul><button class="search-button" aria-label="Toggle search"><span class="fa-solid fa-magnifying-glass"></span></button><script>document.addEventListener('DOMContentLoaded', function() {
+  const searchButton = document.querySelector('.search-button');
+  const searchInput = document.querySelector('#search-input');
+  let lunrIndex = null;
+  let store = {};
+  Promise.all([
+    fetch('/assets/json/search-index.json').then(res => res.json()),
+    fetch('/assets/json/page-titles.json').then(res => res.json())
+  ])
+    //- .then(response => {
+    //-   if (!response.ok) throw new Error('Network response was not ok');
+    //-   return response.json();
+    //- })
+    .then(([searchData, pageTitles]) => {
+
+      lunrIndex = lunr.Index.load(searchData.index || searchData);
+      store = searchData.store || {};
+
+      function performSearch(query) {
+        const results = lunrIndex.search(query);
+        displayResults(results);
+      }
+
+      function displayResults(results) {
+        const searchResults = document.getElementById('search-results');
+        searchResults.innerHTML = '';
+
+        if (results.length === 0) {
+          searchResults.style.display = 'none';
+          return;
+        }
+
+        searchResults.style.display = 'block';
+
+        results.forEach(result => {
+          const a = document.createElement('a');
+          a.href = result.ref;
+          a.textContent = pageTitles[result.ref] || store[result.ref].title || 'Untitled';
+          searchResults.appendChild(a);
+          searchResults.appendChild(document.createElement('br'));
+        });
+      }
+
+      searchInput.addEventListener('input', function() {
+        const query = this.value;
+        performSearch(query);
+      });
+    })
+    .catch(error => console.error('Error loading search index global:', error));
+
+  searchButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    searchInput.classList.toggle('active');
+    if (searchInput.classList.contains('active')) {
+      searchInput.focus();
+    }
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.search-container')) {
+      searchInput.classList.remove('active');
+    }
+  });
+
+  searchInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      searchInput.classList.remove('active');
+    }
+  });
+});
+
+function addCombinedRef(files, metalsmith, done) {
+  Object.keys(files).forEach(function (file) {
+    const data = files[file];
+    let title = data.pageTitle || data.yamlProjectTitle;
+    if (!title && data.contents) {
+      const match = data.contents.toString().match(/<h1[^>]*>(.*?)<\/h1>/i);
+      if (match && match[1]) {
+        title = match[1].trim();
+      }
+    }
+    if (!title) title = 'Untitled';
+    data.title = title;
+    const site = 'CLF4D';
+    const path = file.replace(/\\/g, '/').replace(/^src\//, '').replace(/\.md$/, '.html');
+    data.site = site;
+    data.url = '/' + path;
+    data.combinedRef = `${site} | ${title}`;
+    if (file.endsWith('.html')) {
+      console.log(file, '->', data.title);
+    }
+    console.log(data.combinedRef);
+  });
+  done();
+}</script></div></div></nav></header><main><section class="hero" id="cardhero"><img src="yt.png" alt="Logo del progetto YouThink"><header><h1><q>YouThink</q></h1><cite>— Erasmus+ KA2 Program (2020/2022), <a href="https://dream-project.eu">https://dream-project.eu</a></cite><p class="project-value">Questo progetto **YouTHink** della durata di 26 mesi adotta un approccio innovativo all’educazione e all’alfabetizzazione mediatica e informativa. Si prevede che l’utilizzo di metodi di gamification, compiti immersivi virtuali e strumenti digitali aumenterà il coinvolgimento dei giovani e li motiverà ad approfondire le loro conoscenze sull’alfabetizzazione mediatica e informativa. Almeno 200 giovani partecipanti e 40 operatori giovanili provenienti dai Paesi partner saranno invitati a partecipare al progetto, testando il materiale formativo sviluppato e contribuendo attivamente alla sua creazione.</p></header></section><section id="projectdescription"><aside><nav><ul><li><a href="#partenariato">Partenariato</a></li><li><a href="#obiettivi">Obiettivi</a></li><li><a href="#attività-principali">Attività principali</a></li><li><a href="#prodotti-rimarchevoli">Prodotti rimarchevoli</a></li><li><a href="#dati-del-progetto">Dati del progetto</a></li></ul></nav></aside><article><pre><code>     	 	 		  
+</code></pre>
+<h3 id="empowering-youth-with-digital-literacy-and-critical-thinking"><strong>Empowering Youth with Digital Literacy and Critical Thinking</strong></h3>
+<p><strong>4 novembre 2024</strong></p>
+<p>Questo novembre, <strong>YouTHink</strong>, un progetto internazionale volto a sviluppare le competenze di alfabetizzazione digitale e pensiero critico dei giovani tra i 14 e i 19 anni, lancerà un&#39;iniziativa internazionale per promuovere una navigazione responsabile e sicura nello spazio digitale.</p>
+<p>La rapida diffusione e l&#39;abbondanza di informazioni su siti web, blog e social network creano le condizioni per la propagazione di disinformazione e fake news.			</p>
+<p>Secondo i <a href="https://ec.europa.eu/eurostat/web/products-eurostat-news/w/ddn-20230714-1"><strong>dati Eurostat</strong></a>, nel 2022 l’84% dei giovani (di età compresa tra i 16 e i 29 anni) ha utilizzato internet per i social network, e ben il 94% dei giovani ha usato internet. Questa fascia d’età si imbatte spesso in contenuti che possono includere propaganda, fake news, disinformazione, contenuti generati dall’intelligenza artificiale per scopi malevoli e altro ancora. Secondo un’<a href="https://ec.europa.eu/eurostat/web/products-eurostat-news/w/ddn-20240529-3"><strong>indagine Eurostat</strong></a> sulla verifica dell’affidabilità dei contenuti, è emerso che solo il 36% dei giovani della stessa fascia d’età ha cercato di verificare l’accuratezza delle informazioni o dei contenuti trovati su Internet tramite altre fonti.</p>
+<p>Questo progetto <strong>YouTHink</strong> della durata di 26 mesi adotta un approccio innovativo all’educazione e all’alfabetizzazione mediatica e informativa. Si prevede che l’utilizzo di metodi di gamification, compiti immersivi virtuali e strumenti digitali aumenterà il coinvolgimento dei giovani e li motiverà ad approfondire le loro conoscenze sull’alfabetizzazione mediatica e informativa. Almeno 200 giovani partecipanti e 40 operatori giovanili provenienti dai Paesi partner saranno invitati a partecipare al progetto, testando il materiale formativo sviluppato e contribuendo attivamente alla sua creazione.<br>&quot;Le informazioni pubblicate nello spazio digitale rappresentano sfide crescenti che richiedono un approccio responsabile e competenze di alfabetizzazione mediatica,&quot; afferma Renata Danielienė, coordinatrice del progetto. &quot;Crediamo che il progetto <strong>YouTHink</strong> non solo rafforzerà la resilienza digitale dei giovani, ma li aiuterà anche a comprendere meglio l&#39;impatto dei media, a sviluppare il pensiero critico, a diventare cittadini responsabili della società digitale e a creare contenuti affidabili.&quot; </p>
+<p>Il progetto riunisce cinque organizzazioni di Lituania, Portogallo, Slovenia e Italia, combinando le loro esperienze in metodi di insegnamento innovativi e competenze digitali. 
+Vi invitiamo a seguire le notizie del progetto e a partecipare alle attività del progetto. </p>
+<p><strong>15 novembre 2024</strong></p>
+<h3 id="un-nuovo-partner-associato-si-è-unito-al-consorzio"><strong>Un nuovo partner associato si è unito al consorzio.</strong></h3>
+<p>Siamo lieti di annunciare che <strong>Ynternet.org</strong> dalla Svizzera si è unita al progetto come partner sociale. <strong>Ynternet.org</strong> ha ricevuto un finanziamento dall&#39;Agenzia Nazionale Svizzera <strong>Movetia</strong> per contribuire all&#39;implementazione delle attività del progetto <strong>YouTHink</strong>, sviluppando materiali di lavoro, organizzando formazioni pilota e partecipando alla diffusione del progetto.</p>
+<p>Si prevede che <strong>Ynternet.org</strong> contribuisca ad aumentare l’impatto del progetto, a localizzare le attività del progetto per il mercato svizzero e a contribuire allo sviluppo dei risultati condividendo la sua esperienza in IT, materiali didattici e metodologie.</p>
+<p>Fondata nel 1998, <strong>Ynternet.org</strong> è un&#39;Istituzione di Ricerca e Formazione che promuove un uso efficiente ed etico della tecnologia, incoraggiando comportamenti responsabili nell&#39;ambiente digitale.</p>
+<p><strong>Per saperne di più sull&#39;organizzazione:</strong>  </p>
+<p><a href="http://Ynternet.org"><strong>Ynternet.org</strong></a>, Fondazione per la ricerca e la formazione sull’ eCulture dal 1998.</p>
+<p><img src="../../../assets/media/graphics/partners/ynternet.png" alt="Ynternet.org"></p>
+<h4 id="partner-del-progetto"><strong>Partner del progetto</strong></h4>
+<ul>
+<li><a href="http://www.itinstitutas.lt/"><strong>Informacinių technologijų institutas</strong></a>, Coordinatore (Lituania) </li>
+<li><a href="http://www.vipt.lt/"><strong>Viesieji interneto prieigos taskai</strong></a> (Lituania)</li>
+<li><a href="http://www.ipt.pt/"><strong>Instituto Politecnico de Tomar</strong></a> (Portogallo) </li>
+<li><a href="http://www.simbioza.eu/"><strong>Simbioza Genesis</strong></a> (Slovenia) </li>
+<li><a href="https://crowddreaminganew.world/"><strong>Crhack Lab Foligno 4d ODV</strong></a> (Italia)  </li>
+<li><a href="https://ynternet.org/"><strong>Ynternet.org</strong></a> Partner associato (Svizzera).</li>
+</ul>
+<p>Numero del progetto: 2024-1-LT02-KA220-YOU-000251256<br>Responsabile del progetto: Renata Danieliene, 
+<a href="mailto:youthink@itinstitutas.lt">youthink@itinstitutas.lt</a></p>
+<p><em>Funded by the European Union. Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the Youth Affairs Agency. Neither the European Union nor the granting authority can be held responsible for them.</em><br><img src="../../../assets/media/graphics/logos/eu-logo.png" alt="European Union logo"></p>
+</article></section></main><!--footer.main-footer--><footer><!--.footer-content--><address><header><h2>CRHACK LAB FOLIGNO 4D OdV</h2></header><p>Codice Fiscale: 91051320546 - Partita IVA: 03730820549</p><a href="https://www.openstreetmap.org/search?query=via%20andrea%20vici%2C%208b%20foligno#map=18/42.97180/12.67957" target="_blank"> <span class="fa-solid fa-location-dot"> </span>via Andrea Vici, 8b -
+06039 Foligno (PG)</a><a href="mailto:clf4d@clf4d.eu"> <span class="fa-solid fa-envelope"> </span>clf4d@clf4d.eu</a><span class="fa-solid fa-phone"></span>+39 379 2899151 </address><!--section--><address><header><h2>Privacy & Social media</h2></header><a href="/privacy">Informativa privacy</a><p id="disclaimer">Siamo vincolati ad attuare campagne di disseminazione sui seguenti social media da obblighi contrattuali legati ai finanziamenti pubblici ricevuti. Tuttavia, vi invitiamo ad evitare o limitare l'uso dei social media per proteggere la vostra privacy ed evitare potenziali rischi per la salute.</p><section id="social-media"><a href="https://www.facebook.com/crhacklabfoligno4d" target="_blank"><span class="fa-brands fa-facebook"> </span>Facebook</a><a href="https://www.instagram.com/crhacklab/" target="_blank"><span class="fa-brands fa-instagram"></span>Instagram</a></section></address><!--section--><address><header><h2>Creative Commons Attribution-ShareAlike 4.0 International</h2><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="license"><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA"></a><p>This license requires that reusers give credit to the creator. It allows reusers to distribute, remix, adapt, and build upon the material in any medium or format, even for commercial purposes. If others remix, adapt, or build upon the material, they must license the modified material under identical terms.</p></header></address></footer></body></html>
